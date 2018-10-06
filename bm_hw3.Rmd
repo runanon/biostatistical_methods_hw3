@@ -1,0 +1,56 @@
+---
+title: "bm_hw_3"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(tidyverse)
+library(knitr)
+```
+
+Cigarette smoking continues to be a public health problem with major consequences on heart and lung diseases. Less is actually known about the consequences of quitting smoking. A recent study selected a group of 10 women working at a small medical practice, ages 50-64, that had smoked at least 1 pack/day and quit for at least 6 years (data “HeavySmoke.csv”).
+
+1. The first question is to assess if their body mass index (BMI) has changed 6 years after quitting smoking. Perform an appropriate hypothesis test and interpret your findings. (5p)
+
+```{r}
+smoke_data = read_csv("./HeavySmoke.csv") %>%
+  janitor::clean_names() %>%
+  mutate(diff = bmi_base - bmi_6yrs)
+```
+
+```{r}
+diff_mean = mean(smoke_data$diff)
+diff_sd = sd(smoke_data$diff)
+n = 10
+t = (diff_mean - 0)/(diff_sd/sqrt(n))
+
+```
+
+$$
+\bar{d}= \sum_{i=1}^{n}\frac{d_{i}}{n}=-3.36\\
+s_{d}=\sqrt{\frac{\sum_{i=1}^{n}(d_{i}-\bar{d})^{2}}{n-1}}=2.4627\\
+n = 10\\
+t=\frac{\bar{d}-0}{s_{d}/\sqrt{n}}=-4.3145
+$$
+```{r}
+qt(0.975, n-1)
+```
+
+$$
+t_{n-1, 1-\alpha /2}=2.262157\\
+\left | t \right |=4.3145\\
+For\ \left | t \right |> t_{n-1, 1-\alpha /2},\
+reject\ H_{0}
+$$
+```{r}
+t.test(smoke_data$bmi_base, smoke_data$bmi_6yrs, paired = TRUE)
+```
+
+$$
+For\ p = 0.001949< 0.05, reject\ H_{0}
+$$
+
