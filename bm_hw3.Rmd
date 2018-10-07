@@ -1,20 +1,20 @@
 ---
 title: "bm_hw_3"
-output: html_document
+output: pdf_document
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-```{r}
+```{r include = FALSE}
 library(tidyverse)
 library(knitr)
 ```
 
-Cigarette smoking continues to be a public health problem with major consequences on heart and lung diseases. Less is actually known about the consequences of quitting smoking. A recent study selected a group of 10 women working at a small medical practice, ages 50-64, that had smoked at least 1 pack/day and quit for at least 6 years (data “HeavySmoke.csv”).
+# Problem 2
 
-1. The first question is to assess if their body mass index (BMI) has changed 6 years after quitting smoking. Perform an appropriate hypothesis test and interpret your findings. (5p)
+## 1
 
 ```{r}
 smoke_data = read_csv("./HeavySmoke.csv") %>%
@@ -30,27 +30,208 @@ t = (diff_mean - 0)/(diff_sd/sqrt(n))
 
 ```
 
-$$
-\bar{d}= \sum_{i=1}^{n}\frac{d_{i}}{n}=-3.36\\
-s_{d}=\sqrt{\frac{\sum_{i=1}^{n}(d_{i}-\bar{d})^{2}}{n-1}}=2.4627\\
-n = 10\\
-t=\frac{\bar{d}-0}{s_{d}/\sqrt{n}}=-4.3145
-$$
 ```{r}
 qt(0.975, n-1)
 ```
 
-$$
-t_{n-1, 1-\alpha /2}=2.262157\\
-\left | t \right |=4.3145\\
-For\ \left | t \right |> t_{n-1, 1-\alpha /2},\
-reject\ H_{0}
-$$
 ```{r}
 t.test(smoke_data$bmi_base, smoke_data$bmi_6yrs, paired = TRUE)
 ```
 
 $$
-For\ p = 0.001949< 0.05, reject\ H_{0}
+H_{0} : \mu_{1} - \mu_{2} = 0
 $$
 
+$$
+H_{1} : \mu_{1} - \mu_{2} > 0
+$$
+
+$$
+\bar{d}= \sum_{i=1}^{n}\frac{d_{i}}{n}=-3.36
+$$
+
+$$
+s_{d}=\sqrt{\frac{\sum_{i=1}^{n}(d_{i}-\bar{d})^{2}}{n-1}}=2.4627
+$$
+
+$$
+n = 10\\
+$$
+
+$$
+t=\frac{\bar{d}-0}{s_{d}/\sqrt{n}}=-4.3145
+$$
+
+$$
+t_{n-1, 1-\alpha /2}=2.262157
+$$
+
+$$
+\left | t \right |=4.3145
+$$
+
+$$
+For\ \left | t \right |> t_{n-1, 1-\alpha /2},\ reject\ H_{0}
+$$
+Intepretation:
+We use paired t-test to test whether those 10 women's BMI has changed over 6 years after quitting smoking. According to the solutions listed above, we should reject the null, which means their BMI has changed significantly over 6 years.
+
+## 2
+
+```{r}
+nonsmoke_data = read_csv("./NeverSmoke.csv") %>%
+  janitor::clean_names()
+```
+
+```{r}
+n1=10
+n2=10
+qf(0.975, n1-1, n2-1)
+```
+
+```{r}
+#test equality for variances
+var.test(nonsmoke_data$bmi_base, nonsmoke_data$bmi_6yrs, alternative = "two.sided")
+```
+
+$$
+H_{0}: \sigma_{1} ^{2} = \sigma_{2} ^{2}
+$$
+
+$$
+H_{0}: \sigma_{1} ^{2} \neq  \sigma_{2} ^{2}
+$$
+
+$$
+F= \frac{s_{1}^{2}}{s_{2}^{2}}\sim F_{n_{1}-1,n_{2}-1}=0.94826
+$$
+
+$$
+F_{n_{1}-1,n_{2}-1} = 4.025994
+$$
+
+$$
+For\ F< F_{n_{1}-1,n_{2}-1},\ fail\ to\ reject\ H_{0},\ \sigma_{1} ^{2} = \sigma_{2} ^{2}
+$$
+
+```{r}
+qt(0.975, n1+n2-2)
+```
+
+
+```{r}
+t.test(nonsmoke_data$bmi_base, nonsmoke_data$bmi_6yrs, var.equal = TRUE, paired = FALSE)
+```
+
+$$
+H_{0} : \mu_{1} = \mu_{2}
+$$
+
+$$
+H_{1} : \mu_{1} \neq \mu_{2}
+$$
+
+$$
+s^{2} = \frac{(n_{1}-1)s_{1}^{2}+(n_{2}-1)s_{2}^{2}}{n_{1}+n_{2}-2}= 25.15739
+$$
+
+$$
+t = \frac{\bar{X_{1}}-\bar{X_{2}}}{s\sqrt{(\frac{1}{n_{1}}+\frac{1}{n_{2}})}}=-0.69101\\
+$$
+
+$$
+\left | t \right |=0.69101
+$$
+
+$$
+t_{n_{1}+n_{2}-2, 1-\alpha /2}=2.100922
+$$
+
+$$
+For\ \left | t \right |<t_{n_{1}+n_{2}-2, 1-\alpha /2},\ fail\ to \ reject\ H_{0},\ \mu_{1} = \mu_{2}
+$$
+
+Intepretation:
+First, we use F-test to test the equality of variances. The result shows that the variances of two groups are equal. Then we use t-test to test the equality of mean. The result shows that the means of two groups are equal. So there is no significant BMI changes between women who quit smoking and women who never smoked.
+
+## 3
+Show the corresponding 95% CI associated with part 2. Interpret it in the context of the problem.
+
+$$
+(\bar{X_{1}}-\bar{X_{2}}) - t_{n_{1}+n_{2}-2, 1-\alpha /2}s\sqrt{1/n_{1}+1/n_{2}}\leq \mu\leq (\bar{X_{1}}-\bar{X_{2}}) + t_{n_{1}+n_{2}-2, 1-\alpha /2}s\sqrt{1/n_{1}+1/n_{2}}
+$$
+
+
+```{r}
+t = qt(0.975, 18)
+s = sqrt(25.15739)
+CIL = 28.86 - 30.41 - (t * s * sqrt(2/10))
+CIR = 28.86 - 30.41 + (t * s * sqrt(2/10))
+```
+
+$$
+(\bar{X_{1}}-\bar{X_{2}}) - t_{n_{1}+n_{2}-2, 1-\alpha /2}s\sqrt{1/n_{1}+1/n_{2}} = 
+-6.262569
+$$
+$$
+(\bar{X_{1}}-\bar{X_{2}}) + t_{n_{1}+n_{2}-2, 1-\alpha /2}s\sqrt{1/n_{1}+1/n_{2}} = 3.162569
+$$
+$$
+-6.262569 \leq \mu \leq 3.162569
+$$
+Intepretation:
+The 95% CI for these two samples are (-6.262569, 3.162569). This CI means that we are 95% confidence that the true population mean difference between women that quit smoking and women who never smoked lies between the lower and upper limits of the interval.
+
+## 4
+### a
+For this new study, I would choose 50 women who never smoked and 50 women who quit smoking. To build the counterfactual, we should make sure that these two groups are comparable, which means except exposure, other conditions of women in each group should be the same (e.g health condition, age). Then, recording the BMI of each group. The possible bias in this study  should be avoided is that 1) we should have sufficient sample size. Greater sample size can better represent the population. If the sample size is too small, the result might be inaccurate; 2) make sure there is no loss to follow up. 
+
+### b
+
+$$
+n = \frac{(z_{1-\beta} + z_{1-\alpha /2})^{2}\sigma^{2}}{(\mu_{0}-\mu_{1})^{2}}
+$$
+Smoke sample size
+
+Power       |    0.8     |     0.9    |
+------------|------------|------------|
+$\alpha$    |                         |
+      0 .25 |  4.224461  |  5.516092  |
+        0.5 |  3.488391  |  4.669966  |
+
+
+Never-Smoke sample size
+
+Power       |    0.8     |     0.9    |            
+------------|------------|------------|
+$\alpha$    |            |            | 
+       0.25 |  7.400115  |  9.662704  |
+        0.5 |  6.11072   |  8.18052   |
+
+
+
+
+# Problem 3
+
+A rehabilitation center is interested in examining the relationship between physical status before therapy and the time (days) required in physical therapy until successful rehabilitation. Records from patients 18-30 years old were collected and provided to you for statistical analysis (data “Knee.csv”).
+
+Assuming that data are normally distributed, answer the questions below:
+1. Generate descriptive statistics for each group and comment on the differences observed (R only). (4p)
+
+## 1
+
+```{r}
+knee_data = read_csv("./Knee.csv") %>%
+  janitor::clean_names()
+```
+
+
+
+
+
+
+
+2. Using a type I error of 0.01, obtain the ANOVA table. State the hypotheses, decision rule and conclusion (R only). (5p)-
+3. Based on your response in part 3, perform pairwise comparisons with the appropriate adjustments (Bonferroni, Tukey, and Dunnett – ‘below average’ as reference). Report your findings and comment on the differences/similarities between these three methods
+(R only). (5p)
+4. Write a short paragraph summarizing your results as if you were presenting to the rehabilitation center director.(1p)

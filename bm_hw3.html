@@ -135,10 +135,10 @@ $(document).ready(function () {
 ## ✖ dplyr::filter() masks stats::filter()
 ## ✖ dplyr::lag()    masks stats::lag()</code></pre>
 <pre class="r"><code>library(knitr)</code></pre>
-<p>Cigarette smoking continues to be a public health problem with major consequences on heart and lung diseases. Less is actually known about the consequences of quitting smoking. A recent study selected a group of 10 women working at a small medical practice, ages 50-64, that had smoked at least 1 pack/day and quit for at least 6 years (data “HeavySmoke.csv”).</p>
-<ol style="list-style-type: decimal">
-<li>The first question is to assess if their body mass index (BMI) has changed 6 years after quitting smoking. Perform an appropriate hypothesis test and interpret your findings. (5p)</li>
-</ol>
+<div id="problem-2" class="section level1">
+<h1>Problem 2</h1>
+<div id="section" class="section level2">
+<h2>1</h2>
 <pre class="r"><code>smoke_data = read_csv(&quot;./HeavySmoke.csv&quot;) %&gt;%
   janitor::clean_names() %&gt;%
   mutate(diff = bmi_base - bmi_6yrs)</code></pre>
@@ -181,6 +181,8 @@ reject\ H_{0}
 <p><span class="math display">\[
 For\ p = 0.001949&lt; 0.05, reject\ H_{0}
 \]</span></p>
+</div>
+</div>
 
 
 
