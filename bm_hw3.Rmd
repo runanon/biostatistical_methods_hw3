@@ -225,13 +225,126 @@ knee_data = read_csv("./Knee.csv") %>%
   janitor::clean_names()
 ```
 
+```{r}
+summary(knee_data$below)
+sd(knee_data$below, na.rm = T)
+summary(knee_data$average)
+sd(knee_data$average, na.rm = T)
+summary(knee_data$above)
+sd(knee_data$above, na.rm = T)
+```
 
 
+Group       |    mean    |     sd     |   3rd Qu.  |
+------------|------------|------------|------------|
+      Below |     38     |  5.477226  |     42     |
+    Average |     33     |  3.91578   |     35     |
+      Above |    23.57   |  4.197505  |    24.5    |
+
+As we can see above, the average days required in physical therapy until successful rehabilitation is largest in Below group and smallest in Above group. The number of 3rd Qu. is largest in the Below group and smallest in the Above group. These two findings are conform with our common sense. If the physical status before therapy is relatively better, the days required should be relatively shorter. 
+
+## 2
+
+```{r}
+below <- knee_data$below
+average <- knee_data$average
+above <- knee_data$above
+
+knee_reshape <- c(below, average, above)
+ind<-c(rep(3,length(below)),rep(2,length(average)),rep(1,length(above)))
+new_data_knee <- as.data.frame(cbind(knee_reshape,ind))
+
+res<-lm(knee_reshape~factor(ind), data=new_data_knee)
+anova(res)
+```
+
+$$
+H_{0}:\ \mu_{1} = \mu_{2} = \mu_{3} =\ ...\ =\mu_{k} \\
+H_{1}:\ at\ least\ two\ means\ are\ not\ equal \\
+$$
+$$
+F = \frac{Between\ SS/(k-1)}{With\ SS/(n-k)}\sim F_{k-1,n-k}\ distribution\ under\ H_{0}\\
+F = 19.28
+$$
+```{r}
+qf(1-0.01, 2, 22)
+```
 
 
-
-
-2. Using a type I error of 0.01, obtain the ANOVA table. State the hypotheses, decision rule and conclusion (R only). (5p)-
-3. Based on your response in part 3, perform pairwise comparisons with the appropriate adjustments (Bonferroni, Tukey, and Dunnett – ‘below average’ as reference). Report your findings and comment on the differences/similarities between these three methods
+$$
+F_{k-1,n-k,1-\alpha}=5.719022\\
+F > F_{k-1,n-k,1-\alpha},\ reject\ H_{0}
+$$
+## 3
 (R only). (5p)
-4. Write a short paragraph summarizing your results as if you were presenting to the rehabilitation center director.(1p)
+
+### Bonferroni
+```{r}
+pairwise.t.test(new_data_knee$knee_reshape, new_data_knee$ind, p.adj='bonferroni')
+qt( 1-((0.01/3)/2), 22 )
+```
+As we can see, according to the bonferroni adjustment, there are no mean differences between each group, which means:
+$$
+\mu_{1}=\mu_{2}=\mu_{3}
+$$
+
+### Tukey
+```{r}
+res1<-aov(knee_reshape~factor(ind), data=new_data_knee)
+summary(res1)
+
+TukeyHSD(res1, conf.level = 0.99)
+```
+According to the Tukey method, we can see that the mean between below and above and the mean between average and above are different. Tukey method is less conservative than Bonferroni.
+
+### Dunnett
+```{r}
+library(DescTools)
+```
+
+
+```{r}
+x <- c(29,42,38,40,43,40,30,42)
+y <- c(30,35,39,28,31,31,29,35,39,33)
+z <- c(26,32,21,20,23,22,21)
+dunn_knee <- c(x,y,z)
+g <- factor(rep(1:3, c(8, 10, 7)),
+            labels = c("below",
+                       "average",
+                       "above"))
+DunnettTest(dunn_knee, g, control = "above", conf.level = 0.99)
+```
+According to the Dunnett method, we can see that the mean between below and above group, and the mean between average and above group are different. This conclusion is consistent with the result using Tukey's method.
+
+
+##4. Write a short paragraph summarizing your results as if you were presenting to the rehabilitation center director.(1p)
+
+
+
+
+
+# Problem 4
+
+For this problem you will use the built-in R data called “UCBAdmissions” (library ‘datasets’), an example of sex bias in admission practices. You are interested in comparing the proportions of women vs men admitted at Berkeley (over all departments).
+
+
+## 1. Provide point estimates and 95% CIs for the overall proportions of men and women admitted at Berkeley. Briefly comment on the values. (5p)
+
+
+```{r}
+library(datasets)
+ucb_ad = UCBAdmissions
+```
+
+
+
+
+
+
+
+2. Perform a hypothesis test to assess if the two proportions in 1) are significantly different. Report the results including the test statistic and p-value and an overall conclusion of your findings. This part should contain both ‘hand’ and R calculations. For the latter, feel free to use built-in functions or to create your own. (5p)
+
+
+
+
+
