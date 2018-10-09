@@ -1,0 +1,1011 @@
+\documentclass[]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \ifxetex
+    \usepackage{mathspec}
+  \else
+    \usepackage{fontspec}
+  \fi
+  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\usepackage[margin=1in]{geometry}
+\usepackage{hyperref}
+\hypersetup{unicode=true,
+            pdftitle={Biostatistical Methods Homework 3},
+            pdfborder={0 0 0},
+            breaklinks=true}
+\urlstyle{same}  % don't use monospace font for urls
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\usepackage{longtable,booktabs}
+\usepackage{graphicx,grffile}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+\IfFileExists{parskip.sty}{%
+\usepackage{parskip}
+}{% else
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{0}
+% Redefines (sub)paragraphs to behave more like sections
+\ifx\paragraph\undefined\else
+\let\oldparagraph\paragraph
+\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+\let\oldsubparagraph\subparagraph
+\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+
+%%% Use protect on footnotes to avoid problems with footnotes in titles
+\let\rmarkdownfootnote\footnote%
+\def\footnote{\protect\rmarkdownfootnote}
+
+%%% Change title format to be more compact
+\usepackage{titling}
+
+% Create subtitle command for use in maketitle
+\newcommand{\subtitle}[1]{
+  \posttitle{
+    \begin{center}\large#1\end{center}
+    }
+}
+
+\setlength{\droptitle}{-2em}
+
+  \title{Biostatistical Methods Homework 3}
+    \pretitle{\vspace{\droptitle}\centering\huge}
+  \posttitle{\par}
+    \author{}
+    \preauthor{}\postauthor{}
+    \date{}
+    \predate{}\postdate{}
+  
+
+\begin{document}
+\maketitle
+
+\section{Problem 1}\label{problem-1}
+
+\subsection{1}\label{section}
+
+\$\$
+
+\begin{aligned}
+S^{2} &= \frac{1}{n-1}\sum_{i=1}^{n}\left(X_{i}^{2}+\bar{X}^{2}-2X_{i}\bar{X}\right)\\
+&= \frac{1}{n-1}\left(\sum_{i=1}^{n}X_{i}^{2}+\sum_{i=1}^{n}\bar{X}^{2}-\sum_{i=1}^{n}2X_{i}\bar{X}\right)\\
+&=\frac{1}{n-1}\left(\sum_{i=1}^{n}X_{i}^{2} + n\bar{X}^{2} - 2\bar{X}\sum_{i=1}^{n}X_{i}\right)\\
+&= \frac{1}{n-1}\left(\sum_{i=1}^{n}X_{i}^{2} + n\bar{X}^{2} - 2\bar{X}n\bar{X}\right)\\
+&= \frac{1}{n-1}\left(\sum_{i=1}^{n}X_{i}^{2} + n\bar{X}^{2} - 2n\bar{X}^{2}\right)\\
+&= = \frac{1}{n-1}\left(\sum_{i=1}^{n}X_{i}^{2} - n\bar{X}^{2} \right)\\
+
+
+
+
+\end{aligned}
+
+\$\$
+
+\$\$
+
+\begin{aligned}
+E(S^{2}) &= \frac{1}{n-1}\left [ E(\sum_{i=1}^{n}X_{i}^{2} )- E(n\bar{X}^{2}) \right ]\\
+&= \frac{1}{n-1}\left [ nE(X_{i}^{2} )- nE(\bar{X}^{2}) \right ]\\
+&= \frac{n}{n-1}\left [ E(X_{i}^{2} )- E(\bar{X}^{2}) \right ]\\
+
+\end{aligned}
+
+\$\$
+
+\$\$
+
+\begin{aligned}
+Var(\bar{X}) &= E\bar{X}^{2}-(E\bar{X})^{2}
+
+
+\end{aligned}
+
+\$\$
+
+\[
+\begin{aligned}
+E\bar{X}^{2} &= Var(\bar{X}) + (E\bar{X})^{2} \\
+&= Var\left [ \frac{\sum_{i=1}^{n}X_{i}}{n} \right ]+\mu^{2}\\
+&=\frac{1}{n^{2}}Var\left ( \sum_{i=1}^{n}X_{i} \right )+\mu^{2}\\
+&=\frac{1}{n^{2}}\sum_{i=1}^{n}Var(X_{i})+\mu^{2}\\
+&=\frac{1}{n^{2}}n\sigma^{2}+\mu^{2}\\
+&=\frac{1}{n}\sigma^{2}+\mu^{2}\\
+\end{aligned}
+\]
+
+\[
+\begin{aligned}
+Var(X_{i})&=EX_{i}^{2}-(EX_{i})^{2}\\
+EX_{i}^{2}&=\sigma^{2}+\mu^{2}\\
+E(S^{2})&=\frac{n}{n-1}\left[\sigma^{2}+\mu^{2}-(\frac{1}{n}\sigma^{2}+\mu^{2})\right]\\
+&=\frac{n}{n-1}\left[\sigma^{2}-\frac{1}{n}\sigma^{2}\right]\\
+&=\frac{n}{n-1}\left[\frac{n-1}{n}\sigma^{2}\right]\\
+&=\sigma^{2}
+\end{aligned}
+\]
+
+\subsection{2}\label{section-1}
+
+\[
+\begin{aligned}
+(y_{ij}-\bar{y})^{2}&=(y_{ij}-\bar{y_{i}}+\bar{y_{i}}-\bar{y})^{2}\\
+&=(y_{ij}-\bar{y_{i}})^{2}+(\bar{y_{i}}-\bar{y})^{2}-2(y_{ij}-\bar{y_{i}})(\bar{y_{i}}-\bar{y})
+\end{aligned}
+\]
+
+\section{Problem 2}\label{problem-2}
+
+Cigarette smoking continues to be a public health problem with major
+consequences on heart and lung diseases. Less is actually known about
+the consequences of quitting smoking. A recent study selected a group of
+10 women working at a small medical practice, ages 50-64, that had
+smoked at least 1 pack/day and quit for at least 6 years (data
+``HeavySmoke.csv'').
+
+\subsection{1. The first question is to assess if their body mass index
+(BMI) has changed 6 years after quitting smoking. Perform an appropriate
+hypothesis test and interpret your findings.
+(5p)}\label{the-first-question-is-to-assess-if-their-body-mass-index-bmi-has-changed-6-years-after-quitting-smoking.-perform-an-appropriate-hypothesis-test-and-interpret-your-findings.-5p}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{smoke_data =}\StringTok{ }\KeywordTok{read_csv}\NormalTok{(}\StringTok{"./HeavySmoke.csv"}\NormalTok{) }\OperatorTok{%>%}
+\StringTok{  }\NormalTok{janitor}\OperatorTok{::}\KeywordTok{clean_names}\NormalTok{() }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{mutate}\NormalTok{(}\DataTypeTok{diff =}\NormalTok{ bmi_base }\OperatorTok{-}\StringTok{ }\NormalTok{bmi_6yrs)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Parsed with column specification:
+## cols(
+##   ID = col_integer(),
+##   BMI_base = col_double(),
+##   BMI_6yrs = col_double()
+## )
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{diff_mean =}\StringTok{ }\KeywordTok{mean}\NormalTok{(smoke_data}\OperatorTok{$}\NormalTok{diff)}
+\NormalTok{diff_sd =}\StringTok{ }\KeywordTok{sd}\NormalTok{(smoke_data}\OperatorTok{$}\NormalTok{diff)}
+\NormalTok{n =}\StringTok{ }\DecValTok{10}
+\NormalTok{t =}\StringTok{ }\NormalTok{(diff_mean }\OperatorTok{-}\StringTok{ }\DecValTok{0}\NormalTok{)}\OperatorTok{/}\NormalTok{(diff_sd}\OperatorTok{/}\KeywordTok{sqrt}\NormalTok{(n))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{qt}\NormalTok{(}\FloatTok{0.975}\NormalTok{, n}\OperatorTok{-}\DecValTok{1}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 2.262157
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{t.test}\NormalTok{(smoke_data}\OperatorTok{$}\NormalTok{bmi_base, smoke_data}\OperatorTok{$}\NormalTok{bmi_6yrs, }\DataTypeTok{paired =} \OtherTok{TRUE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  Paired t-test
+## 
+## data:  smoke_data$bmi_base and smoke_data$bmi_6yrs
+## t = -4.3145, df = 9, p-value = 0.001949
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  -5.121709 -1.598291
+## sample estimates:
+## mean of the differences 
+##                   -3.36
+\end{verbatim}
+
+\[
+H_{0} : \mu_{1} - \mu_{2} = 0
+\]
+
+\[
+H_{1} : \mu_{1} - \mu_{2} > 0
+\]
+
+\[
+\bar{d}= \sum_{i=1}^{n}\frac{d_{i}}{n}=-3.36
+\]
+
+\[
+s_{d}=\sqrt{\frac{\sum_{i=1}^{n}(d_{i}-\bar{d})^{2}}{n-1}}=2.4627
+\]
+
+\[
+n = 10\\
+\]
+
+\[
+t=\frac{\bar{d}-0}{s_{d}/\sqrt{n}}=-4.3145
+\]
+
+\[
+t_{n-1, 1-\alpha /2}=2.262157
+\]
+
+\[
+\left | t \right |=4.3145
+\]
+
+\[
+For\ \left | t \right |> t_{n-1, 1-\alpha /2},\ reject\ H_{0}
+\] Intepretation: We use paired t-test to test whether those 10 women's
+BMI has changed over 6 years after quitting smoking. According to the
+solutions listed above, we should reject the null, which means their BMI
+has changed significantly over 6 years.
+
+\subsection{2. The investigators suspected an overall change in weight
+over the years, so they decided to enroll a control group of 50-64 years
+of age that never smoked (data NeverSmoke.csv). Perform an appropriate
+test to compare the BMI changes between women that quit smoking and
+women who never smoked. Interpret the findings.
+(5p)}\label{the-investigators-suspected-an-overall-change-in-weight-over-the-years-so-they-decided-to-enroll-a-control-group-of-50-64-years-of-age-that-never-smoked-data-neversmoke.csv.-perform-an-appropriate-test-to-compare-the-bmi-changes-between-women-that-quit-smoking-and-women-who-never-smoked.-interpret-the-findings.-5p}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{nonsmoke_data =}\StringTok{ }\KeywordTok{read_csv}\NormalTok{(}\StringTok{"./NeverSmoke.csv"}\NormalTok{) }\OperatorTok{%>%}
+\StringTok{  }\NormalTok{janitor}\OperatorTok{::}\KeywordTok{clean_names}\NormalTok{() }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{mutate}\NormalTok{(}\DataTypeTok{diff =}\NormalTok{ bmi_6yrs }\OperatorTok{-}\StringTok{ }\NormalTok{bmi_base)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Parsed with column specification:
+## cols(
+##   ID = col_integer(),
+##   BMI_base = col_double(),
+##   BMI_6yrs = col_double()
+## )
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{n1=}\DecValTok{10}
+\NormalTok{n2=}\DecValTok{10}
+\KeywordTok{qf}\NormalTok{(}\FloatTok{0.975}\NormalTok{, n1}\OperatorTok{-}\DecValTok{1}\NormalTok{, n2}\OperatorTok{-}\DecValTok{1}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 4.025994
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#test equality for variances}
+\KeywordTok{var.test}\NormalTok{(smoke_data}\OperatorTok{$}\NormalTok{diff, nonsmoke_data}\OperatorTok{$}\NormalTok{diff, }\DataTypeTok{alternative =} \StringTok{"two.sided"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  F test to compare two variances
+## 
+## data:  smoke_data$diff and nonsmoke_data$diff
+## F = 1.1627, num df = 9, denom df = 9, p-value = 0.826
+## alternative hypothesis: true ratio of variances is not equal to 1
+## 95 percent confidence interval:
+##  0.2888038 4.6811133
+## sample estimates:
+## ratio of variances 
+##           1.162722
+\end{verbatim}
+
+\[
+H_{0}: \sigma_{1} ^{2} = \sigma_{2} ^{2}
+\]
+
+\[
+H_{0}: \sigma_{1} ^{2} \neq  \sigma_{2} ^{2}
+\]
+
+\[
+F= \frac{s_{1}^{2}}{s_{2}^{2}}\sim F_{n_{1}-1,n_{2}-1}=1.162722 
+\]
+
+\[
+F_{n_{1}-1,n_{2}-1} = 4.025994
+\]
+
+\[
+For\ F< F_{n_{1}-1,n_{2}-1},\ fail\ to\ reject\ H_{0},\ \sigma_{1} ^{2} = \sigma_{2} ^{2}
+\]
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{qt}\NormalTok{(}\FloatTok{0.975}\NormalTok{, n1}\OperatorTok{+}\NormalTok{n2}\OperatorTok{-}\DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 2.100922
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{t.test}\NormalTok{(nonsmoke_data}\OperatorTok{$}\NormalTok{diff, smoke_data}\OperatorTok{$}\NormalTok{diff, }\DataTypeTok{var.equal =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{paired =} \OtherTok{FALSE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  Two Sample t-test
+## 
+## data:  nonsmoke_data$diff and smoke_data$diff
+## t = 4.6228, df = 18, p-value = 0.0002114
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  2.678568 7.141432
+## sample estimates:
+## mean of x mean of y 
+##      1.55     -3.36
+\end{verbatim}
+
+\[
+H_{0} : \mu_{1} = \mu_{2}
+\]
+
+\[
+H_{1} : \mu_{1} \neq \mu_{2}
+\]
+
+\[
+s^{2} = \frac{(n_{1}-1)s_{1}^{2}+(n_{2}-1)s_{2}^{2}}{n_{1}+n_{2}-2}= 5.6405
+\]
+
+\[
+t = \frac{\bar{X_{1}}-\bar{X_{2}}}{s\sqrt{(\frac{1}{n_{1}}+\frac{1}{n_{2}})}}=4.6228\\
+\]
+
+\[
+t_{n_{1}+n_{2}-2, 1-\alpha /2}=2.100922
+\]
+
+\[
+For\ \left | t \right |>t_{n_{1}+n_{2}-2, 1-\alpha /2},\ reject\ H_{0},\ \mu_{1} \neq \mu_{2}
+\]
+
+Intepretation: First, we use F-test to test the equality of variances.
+The result shows that the variances of two groups are equal. Then we use
+t-test to test the equality of mean. The result shows that the means of
+BMI changes of two groups are different. So there is significant BMI
+changes between women who quit smoking and women who never smoked.
+
+\subsection{3. Show the corresponding 95\% CI associated with part 2.
+Interpret it in the context of the
+problem.}\label{show-the-corresponding-95-ci-associated-with-part-2.-interpret-it-in-the-context-of-the-problem.}
+
+\[
+(\bar{X_{1}}-\bar{X_{2}}) - t_{n_{1}+n_{2}-2, 1-\alpha /2}s\sqrt{1/n_{1}+1/n_{2}}\leq \mu\leq (\bar{X_{1}}-\bar{X_{2}}) + t_{n_{1}+n_{2}-2, 1-\alpha /2}s\sqrt{1/n_{1}+1/n_{2}}
+\]
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{t =}\StringTok{ }\KeywordTok{qt}\NormalTok{(}\FloatTok{0.975}\NormalTok{, }\DecValTok{18}\NormalTok{)}
+\NormalTok{s =}\StringTok{ }\KeywordTok{sqrt}\NormalTok{(}\FloatTok{25.15739}\NormalTok{)}
+\NormalTok{CIL =}\StringTok{ }\FloatTok{28.86} \OperatorTok{-}\StringTok{ }\FloatTok{30.41} \OperatorTok{-}\StringTok{ }\NormalTok{(t }\OperatorTok{*}\StringTok{ }\NormalTok{s }\OperatorTok{*}\StringTok{ }\KeywordTok{sqrt}\NormalTok{(}\DecValTok{2}\OperatorTok{/}\DecValTok{10}\NormalTok{))}
+\NormalTok{CIR =}\StringTok{ }\FloatTok{28.86} \OperatorTok{-}\StringTok{ }\FloatTok{30.41} \OperatorTok{+}\StringTok{ }\NormalTok{(t }\OperatorTok{*}\StringTok{ }\NormalTok{s }\OperatorTok{*}\StringTok{ }\KeywordTok{sqrt}\NormalTok{(}\DecValTok{2}\OperatorTok{/}\DecValTok{10}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\[
+(\bar{X_{1}}-\bar{X_{2}}) - t_{n_{1}+n_{2}-2, 1-\alpha /2}s\sqrt{1/n_{1}+1/n_{2}} = 
+-6.262569
+\] \[
+(\bar{X_{1}}-\bar{X_{2}}) + t_{n_{1}+n_{2}-2, 1-\alpha /2}s\sqrt{1/n_{1}+1/n_{2}} = 3.162569
+\] \[
+-6.262569 \leq \mu \leq 3.162569
+\] Intepretation: The 95\% CI for these two samples are (-6.262569,
+3.162569). This CI means that we are 95\% confidence that the true
+population mean difference between women that quit smoking and women who
+never smoked lies between the lower and upper limits of the interval.
+
+\subsection{4. Suppose the researchers want to launch into a larger
+study to prove that a difference does exist between the two groups with
+respect to BMI
+changes.}\label{suppose-the-researchers-want-to-launch-into-a-larger-study-to-prove-that-a-difference-does-exist-between-the-two-groups-with-respect-to-bmi-changes.}
+
+\subsubsection{a. How would you design the new study? Comment on
+elements of study design such as randomization, possible causes of bias
+that should be avoided, etc.
+(5p)}\label{a.-how-would-you-design-the-new-study-comment-on-elements-of-study-design-such-as-randomization-possible-causes-of-bias-that-should-be-avoided-etc.-5p}
+
+For this new study, I would choose 50 women who never smoked and 50
+women who quit smoking. To build the counterfactual, we should make sure
+that these two groups are comparable, which means except exposure, other
+conditions of women in each group should be the same (e.g health
+condition, age). Then, recording the BMI of each group. The possible
+bias in this study should be avoided is that 1) we should have
+sufficient sample size. Greater sample size can better represent the
+population. If the sample size is too small, the result might be
+inaccurate; 2) make sure there is no loss to follow up.
+
+\subsubsection{b. Calculate the sample size for the new study. Assuming
+a two-sided test, create a table showing sample size estimates for 80\%
+vs 90\% power, 2.5\% vs 5\% significance level, using the following
+information: the true mean increase for smokers is 3.0 kg/m2, with a
+standard deviation of 2.0 kg/m2; for never-smokers the true mean
+increase is 1.7 kg/m2, with a standard deviation of 1.5 kg/m2. (R only
+is allowed for calculations).
+(5p)}\label{b.-calculate-the-sample-size-for-the-new-study.-assuming-a-two-sided-test-create-a-table-showing-sample-size-estimates-for-80-vs-90-power-2.5-vs-5-significance-level-using-the-following-information-the-true-mean-increase-for-smokers-is-3.0-kgm2-with-a-standard-deviation-of-2.0-kgm2-for-never-smokers-the-true-mean-increase-is-1.7-kgm2-with-a-standard-deviation-of-1.5-kgm2.-r-only-is-allowed-for-calculations.-5p}
+
+\[
+\Delta = 3-1.7=1.3
+\]
+
+\[
+n = \frac{(z_{1-\beta} + z_{1-\alpha /2})^{2}(\sigma_{1}^{2}+\sigma_{2}^{2})}{\Delta ^{2}}
+\]
+
+\begin{longtable}[]{@{}lll@{}}
+\toprule
+Power & 0.8 & 0.9\tabularnewline
+\midrule
+\endhead
+\(\alpha\) & &\tabularnewline
+0.025 & 46 & 60\tabularnewline
+0.05 & 38 & 50\tabularnewline
+\bottomrule
+\end{longtable}
+
+\section{Problem 3}\label{problem-3}
+
+A rehabilitation center is interested in examining the relationship
+between physical status before therapy and the time (days) required in
+physical therapy until successful rehabilitation. Records from patients
+18-30 years old were collected and provided to you for statistical
+analysis (data ``Knee.csv'').
+
+Assuming that data are normally distributed, answer the questions below:
+
+\subsection{1. Generate descriptive statistics for each group and
+comment on the differences observed (R only).
+(4p)}\label{generate-descriptive-statistics-for-each-group-and-comment-on-the-differences-observed-r-only.-4p}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{knee_data =}\StringTok{ }\KeywordTok{read_csv}\NormalTok{(}\StringTok{"./Knee.csv"}\NormalTok{) }\OperatorTok{%>%}
+\StringTok{  }\NormalTok{janitor}\OperatorTok{::}\KeywordTok{clean_names}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Parsed with column specification:
+## cols(
+##   Below = col_integer(),
+##   Average = col_integer(),
+##   Above = col_integer()
+## )
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{summary}\NormalTok{(knee_data}\OperatorTok{$}\NormalTok{below)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
+##      29      36      40      38      42      43       2
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{sd}\NormalTok{(knee_data}\OperatorTok{$}\NormalTok{below, }\DataTypeTok{na.rm =}\NormalTok{ T)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 5.477226
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{summary}\NormalTok{(knee_data}\OperatorTok{$}\NormalTok{average)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##   28.00   30.25   32.00   33.00   35.00   39.00
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{sd}\NormalTok{(knee_data}\OperatorTok{$}\NormalTok{average, }\DataTypeTok{na.rm =}\NormalTok{ T)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 3.91578
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{summary}\NormalTok{(knee_data}\OperatorTok{$}\NormalTok{above)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
+##   20.00   21.00   22.00   23.57   24.50   32.00       3
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{sd}\NormalTok{(knee_data}\OperatorTok{$}\NormalTok{above, }\DataTypeTok{na.rm =}\NormalTok{ T)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 4.197505
+\end{verbatim}
+
+\begin{longtable}[]{@{}llll@{}}
+\toprule
+Group & mean & sd & 3rd Qu.\tabularnewline
+\midrule
+\endhead
+Below & 38 & 5.477226 & 42\tabularnewline
+Average & 33 & 3.91578 & 35\tabularnewline
+Above & 23.57 & 4.197505 & 24.5\tabularnewline
+\bottomrule
+\end{longtable}
+
+As we can see above, the average days required in physical therapy until
+successful rehabilitation is largest in Below group and smallest in
+Above group. The number of 3rd Qu. is largest in the Below group and
+smallest in the Above group. These two findings are conform with our
+common sense. If the physical status before therapy is relatively
+better, the days required should be relatively shorter.
+
+\subsection{2. Using a type I error of 0.01, obtain the ANOVA table.
+State the hypotheses, decision rule and conclusion (R only).
+(5p)}\label{using-a-type-i-error-of-0.01-obtain-the-anova-table.-state-the-hypotheses-decision-rule-and-conclusion-r-only.-5p}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{below <-}\StringTok{ }\NormalTok{knee_data}\OperatorTok{$}\NormalTok{below}
+\NormalTok{average <-}\StringTok{ }\NormalTok{knee_data}\OperatorTok{$}\NormalTok{average}
+\NormalTok{above <-}\StringTok{ }\NormalTok{knee_data}\OperatorTok{$}\NormalTok{above}
+
+\NormalTok{knee_reshape <-}\StringTok{ }\KeywordTok{c}\NormalTok{(below, average, above)}
+\NormalTok{ind<-}\KeywordTok{c}\NormalTok{(}\KeywordTok{rep}\NormalTok{(}\DecValTok{3}\NormalTok{,}\KeywordTok{length}\NormalTok{(below)),}\KeywordTok{rep}\NormalTok{(}\DecValTok{2}\NormalTok{,}\KeywordTok{length}\NormalTok{(average)),}\KeywordTok{rep}\NormalTok{(}\DecValTok{1}\NormalTok{,}\KeywordTok{length}\NormalTok{(above)))}
+\NormalTok{new_data_knee <-}\StringTok{ }\KeywordTok{as.data.frame}\NormalTok{(}\KeywordTok{cbind}\NormalTok{(knee_reshape,ind))}
+
+\NormalTok{res<-}\KeywordTok{lm}\NormalTok{(knee_reshape}\OperatorTok{~}\KeywordTok{factor}\NormalTok{(ind), }\DataTypeTok{data=}\NormalTok{new_data_knee)}
+\KeywordTok{anova}\NormalTok{(res)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Analysis of Variance Table
+## 
+## Response: knee_reshape
+##             Df Sum Sq Mean Sq F value    Pr(>F)    
+## factor(ind)  2 795.25  397.62   19.28 1.454e-05 ***
+## Residuals   22 453.71   20.62                      
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+\end{verbatim}
+
+\[
+H_{0}:\ \mu_{1} = \mu_{2} = \mu_{3} =\ ...\ =\mu_{k} \\
+H_{1}:\ at\ least\ two\ means\ are\ not\ equal \\
+\] \[
+F = \frac{Between\ SS/(k-1)}{With\ SS/(n-k)}\sim F_{k-1,n-k}\ distribution\ under\ H_{0}\\
+F = 19.28
+\]
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{qf}\NormalTok{(}\DecValTok{1}\OperatorTok{-}\FloatTok{0.01}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{22}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 5.719022
+\end{verbatim}
+
+\[
+F_{k-1,n-k,1-\alpha}=5.719022\\
+F > F_{k-1,n-k,1-\alpha},\ reject\ H_{0}
+\] \#\# 3. Based on your response in part 3, perform pairwise
+comparisons with the appropriate adjustments (Bonferroni, Tukey, and
+Dunnett -- `below average' as reference). Report your findings and
+comment on the differences/similarities between these three methods (R
+only). (5p)
+
+\subsubsection{Bonferroni}\label{bonferroni}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{pairwise.t.test}\NormalTok{(new_data_knee}\OperatorTok{$}\NormalTok{knee_reshape, new_data_knee}\OperatorTok{$}\NormalTok{ind, }\DataTypeTok{p.adj=}\StringTok{'bonferroni'}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  Pairwise comparisons using t tests with pooled SD 
+## 
+## data:  new_data_knee$knee_reshape and new_data_knee$ind 
+## 
+##   1       2     
+## 2 0.0011  -     
+## 3 1.1e-05 0.0898
+## 
+## P value adjustment method: bonferroni
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{qt}\NormalTok{( }\DecValTok{1}\OperatorTok{-}\NormalTok{((}\FloatTok{0.01}\OperatorTok{/}\DecValTok{3}\NormalTok{)}\OperatorTok{/}\DecValTok{2}\NormalTok{), }\DecValTok{22}\NormalTok{ )}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 3.290888
+\end{verbatim}
+
+As we can see, according to the bonferroni adjustment, there are no mean
+differences between each group, which means: \[
+\mu_{1}=\mu_{2}=\mu_{3}
+\]
+
+\subsubsection{Tukey}\label{tukey}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{res1<-}\KeywordTok{aov}\NormalTok{(knee_reshape}\OperatorTok{~}\KeywordTok{factor}\NormalTok{(ind), }\DataTypeTok{data=}\NormalTok{new_data_knee)}
+\KeywordTok{summary}\NormalTok{(res1)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##             Df Sum Sq Mean Sq F value   Pr(>F)    
+## factor(ind)  2  795.2   397.6   19.28 1.45e-05 ***
+## Residuals   22  453.7    20.6                     
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 5 observations deleted due to missingness
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{TukeyHSD}\NormalTok{(res1, }\DataTypeTok{conf.level =} \FloatTok{0.99}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   Tukey multiple comparisons of means
+##     99% family-wise confidence level
+## 
+## Fit: aov(formula = knee_reshape ~ factor(ind), data = new_data_knee)
+## 
+## $`factor(ind)`
+##          diff       lwr      upr     p adj
+## 2-1  9.428571  2.168498 16.68864 0.0010053
+## 3-1 14.428571  6.803969 22.05317 0.0000102
+## 3-2  5.000000 -1.988063 11.98806 0.0736833
+\end{verbatim}
+
+According to the Tukey method, we can see that the mean between below
+and above and the mean between average and above are different. Tukey
+method is less conservative than Bonferroni.
+
+\subsubsection{Dunnett}\label{dunnett}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(DescTools)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{x <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\DecValTok{29}\NormalTok{,}\DecValTok{42}\NormalTok{,}\DecValTok{38}\NormalTok{,}\DecValTok{40}\NormalTok{,}\DecValTok{43}\NormalTok{,}\DecValTok{40}\NormalTok{,}\DecValTok{30}\NormalTok{,}\DecValTok{42}\NormalTok{)}
+\NormalTok{y <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\DecValTok{30}\NormalTok{,}\DecValTok{35}\NormalTok{,}\DecValTok{39}\NormalTok{,}\DecValTok{28}\NormalTok{,}\DecValTok{31}\NormalTok{,}\DecValTok{31}\NormalTok{,}\DecValTok{29}\NormalTok{,}\DecValTok{35}\NormalTok{,}\DecValTok{39}\NormalTok{,}\DecValTok{33}\NormalTok{)}
+\NormalTok{z <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\DecValTok{26}\NormalTok{,}\DecValTok{32}\NormalTok{,}\DecValTok{21}\NormalTok{,}\DecValTok{20}\NormalTok{,}\DecValTok{23}\NormalTok{,}\DecValTok{22}\NormalTok{,}\DecValTok{21}\NormalTok{)}
+\NormalTok{dunn_knee <-}\StringTok{ }\KeywordTok{c}\NormalTok{(x,y,z)}
+\NormalTok{g <-}\StringTok{ }\KeywordTok{factor}\NormalTok{(}\KeywordTok{rep}\NormalTok{(}\DecValTok{1}\OperatorTok{:}\DecValTok{3}\NormalTok{, }\KeywordTok{c}\NormalTok{(}\DecValTok{8}\NormalTok{, }\DecValTok{10}\NormalTok{, }\DecValTok{7}\NormalTok{)),}
+            \DataTypeTok{labels =} \KeywordTok{c}\NormalTok{(}\StringTok{"below"}\NormalTok{,}
+                       \StringTok{"average"}\NormalTok{,}
+                       \StringTok{"above"}\NormalTok{))}
+\KeywordTok{DunnettTest}\NormalTok{(dunn_knee, g, }\DataTypeTok{control =} \StringTok{"above"}\NormalTok{, }\DataTypeTok{conf.level =} \FloatTok{0.99}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##   Dunnett's test for comparing several treatments with a control :  
+##     99% family-wise confidence level
+## 
+## $above
+##                    diff   lwr.ci   upr.ci    pval    
+## below-above   14.428571 7.173453 21.68369 6.9e-06 ***
+## average-above  9.428571 2.520317 16.33683 0.00069 ***
+## 
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+\end{verbatim}
+
+According to the Dunnett method, we can see that the mean between below
+and above group, and the mean between average and above group are
+different. This conclusion is consistent with the result using Tukey's
+method.
+
+\subsection{4. Write a short paragraph summarizing your results as if
+you were presenting to the rehabilitation center
+director.(1p)}\label{write-a-short-paragraph-summarizing-your-results-as-if-you-were-presenting-to-the-rehabilitation-center-director.1p}
+
+According to the analysis, we can conclude that for person who is in
+better physical status, the average days required in physical therapy is
+relatively less. However, the average days differences between below
+group and average group is not significant. We can conclude that the
+average days taken by patients in above group until rehabilitation is
+much less than patients in average group's and below group's. In a more
+conservative way, we might also says there is actually no significant
+differences between the average days taken by patients in each group.
+
+\section{Problem 4}\label{problem-4}
+
+For this problem you will use the built-in R data called
+``UCBAdmissions'' (library `datasets'), an example of sex bias in
+admission practices. You are interested in comparing the proportions of
+women vs men admitted at Berkeley (over all departments).
+
+\subsection{1. Provide point estimates and 95\% CIs for the overall
+proportions of men and women admitted at Berkeley. Briefly comment on
+the values.
+(5p)}\label{provide-point-estimates-and-95-cis-for-the-overall-proportions-of-men-and-women-admitted-at-berkeley.-briefly-comment-on-the-values.-5p}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(datasets)}
+\NormalTok{ucb_ad =}\StringTok{ }\KeywordTok{as.data.frame}\NormalTok{(UCBAdmissions) }\OperatorTok{%>%}
+\StringTok{  }\NormalTok{janitor}\OperatorTok{::}\KeywordTok{clean_names}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{ucb_women =}\StringTok{ }\NormalTok{ucb_ad }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{filter}\NormalTok{(gender }\OperatorTok{==}\StringTok{ "Female"}\NormalTok{)}
+\NormalTok{ucb_men =}\StringTok{ }\NormalTok{ucb_ad }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{filter}\NormalTok{(gender }\OperatorTok{==}\StringTok{ "Male"}\NormalTok{)}
+
+\NormalTok{ucb_admitted_women =}\StringTok{ }\NormalTok{ucb_women }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{filter}\NormalTok{(admit }\OperatorTok{==}\StringTok{ "Admitted"}\NormalTok{)}
+\NormalTok{ucb_admitted_men =}\StringTok{ }\NormalTok{ucb_men }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{filter}\NormalTok{(admit }\OperatorTok{==}\StringTok{ "Admitted"}\NormalTok{)}
+
+\NormalTok{X_men =}\StringTok{ }\KeywordTok{sum}\NormalTok{(ucb_admitted_men}\OperatorTok{$}\NormalTok{freq)}
+\NormalTok{X_women =}\StringTok{ }\KeywordTok{sum}\NormalTok{(ucb_admitted_women}\OperatorTok{$}\NormalTok{freq)}
+
+\NormalTok{n_men =}\StringTok{ }\KeywordTok{sum}\NormalTok{(ucb_men}\OperatorTok{$}\NormalTok{freq)}
+\NormalTok{n_women =}\StringTok{ }\KeywordTok{sum}\NormalTok{(ucb_women}\OperatorTok{$}\NormalTok{freq)}
+
+\NormalTok{p_hat_men =}\StringTok{ }\NormalTok{X_men}\OperatorTok{/}\NormalTok{n_men}
+\NormalTok{p_hat_women =}\StringTok{ }\NormalTok{X_women}\OperatorTok{/}\NormalTok{n_women}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# CI for men}
+\NormalTok{CIL_men =}\StringTok{ }\NormalTok{p_hat_men }\OperatorTok{-}\StringTok{ }\NormalTok{(}\KeywordTok{qnorm}\NormalTok{(}\FloatTok{0.975}\NormalTok{) }\OperatorTok{*}\StringTok{ }\KeywordTok{sqrt}\NormalTok{(p_hat_men }\OperatorTok{*}\StringTok{ }\NormalTok{(}\DecValTok{1}\OperatorTok{-}\NormalTok{p_hat_men)}\OperatorTok{/}\NormalTok{n_men))}
+\NormalTok{CIR_men =}\StringTok{ }\NormalTok{p_hat_men }\OperatorTok{+}\StringTok{ }\NormalTok{(}\KeywordTok{qnorm}\NormalTok{(}\FloatTok{0.975}\NormalTok{) }\OperatorTok{*}\StringTok{ }\KeywordTok{sqrt}\NormalTok{(p_hat_men }\OperatorTok{*}\StringTok{ }\NormalTok{(}\DecValTok{1}\OperatorTok{-}\NormalTok{p_hat_men)}\OperatorTok{/}\NormalTok{n_men))}
+
+\CommentTok{#CI for women}
+\NormalTok{CIL_women =}\StringTok{ }\NormalTok{p_hat_women }\OperatorTok{-}\StringTok{ }\NormalTok{(}\KeywordTok{qnorm}\NormalTok{(}\FloatTok{0.975}\NormalTok{) }\OperatorTok{*}\StringTok{ }\KeywordTok{sqrt}\NormalTok{(p_hat_women }\OperatorTok{*}\StringTok{ }\NormalTok{(}\DecValTok{1}\OperatorTok{-}\NormalTok{p_hat_women)}\OperatorTok{/}\NormalTok{n_women))}
+\NormalTok{CIR_women =}\StringTok{ }\NormalTok{p_hat_women }\OperatorTok{+}\StringTok{ }\NormalTok{(}\KeywordTok{qnorm}\NormalTok{(}\FloatTok{0.975}\NormalTok{) }\OperatorTok{*}\StringTok{ }\KeywordTok{sqrt}\NormalTok{(p_hat_women }\OperatorTok{*}\StringTok{ }\NormalTok{(}\DecValTok{1}\OperatorTok{-}\NormalTok{p_hat_women)}\OperatorTok{/}\NormalTok{n_women))}
+\end{Highlighting}
+\end{Shaded}
+
+The calculation of CI for a population proportion: \[
+\hat{p}=\frac{\sum_{i=1}^{n}X_{i}}{n}=\frac{X}{n}
+\]
+
+\[
+E(\hat{p}) = p
+\]
+
+\[
+Var(\hat{p}) = \frac{p(1-p)}{n}
+\] \[
+\hat{p} = \bar{X} \sim N(p,\frac{p(1-p)}{n})
+\] \[
+(\hat{p} - z_{1-\alpha/2}\sqrt{\frac{\hat{p}(1-\hat{p})}{n}},\hat{p} + z_{1-\alpha/2}\sqrt{\frac{\hat{p}(1-\hat{p})}{n}})
+\]
+
+For men: \[
+\hat{p}=\frac{1198}{2691}=0.4451877
+\] \[
+\hat{p} - z_{1-\alpha/2}\sqrt{\frac{\hat{p}(1-\hat{p})}{n}}=0.4264102
+\] \[
+\hat{p} + z_{1-\alpha/2}\sqrt{\frac{\hat{p}(1-\hat{p})}{n}}=0.4639651
+\] So for men the CI is: \[
+(0.4264102,0.4639651)
+\]
+
+For women:
+
+\[
+\hat{p}=\frac{557}{1835}=0.3035422
+\]
+
+\[
+\hat{p} - z_{1-\alpha/2}\sqrt{\frac{\hat{p}(1-\hat{p})}{n}}=0.2825051
+\] \[
+\hat{p} + z_{1-\alpha/2}\sqrt{\frac{\hat{p}(1-\hat{p})}{n}}=0.3245794
+\] So for women the CI is: \[
+(0.2825051,0.3245794)
+\] Comment: We are 95\% confidence that the true population proportion
+of men admitted at Berkeley lies between 0.4264102 and 0.4639651, and
+the true population proportions of women admitted at Berkeley lies
+between 0.2825051 and 0.3245794. Simply judging from number, it seems
+that the CI of women is lower than CI of men. But we don't know for sure
+until we do the hypothesis test.
+
+\subsection{\texorpdfstring{2. Perform a hypothesis test to assess if
+the two proportions in 1) are significantly different. Report the
+results including the test statistic and p-value and an overall
+conclusion of your findings. This part should contain both `hand' and R
+calculations. For the latter, feel free to use built-in functions or to
+create your own.
+(5p)}{2. Perform a hypothesis test to assess if the two proportions in 1) are significantly different. Report the results including the test statistic and p-value and an overall conclusion of your findings. This part should contain both hand and R calculations. For the latter, feel free to use built-in functions or to create your own. (5p)}}\label{perform-a-hypothesis-test-to-assess-if-the-two-proportions-in-1-are-significantly-different.-report-the-results-including-the-test-statistic-and-p-value-and-an-overall-conclusion-of-your-findings.-this-part-should-contain-both-hand-and-r-calculations.-for-the-latter-feel-free-to-use-built-in-functions-or-to-create-your-own.-5p}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{two.proptest_norm <-}\StringTok{ }\ControlFlowTok{function}\NormalTok{(x1, x2, n1, n2, }\DataTypeTok{p=}\OtherTok{NULL}\NormalTok{, }\DataTypeTok{conf.level=}\FloatTok{0.95}\NormalTok{, }\DataTypeTok{alternative=}\StringTok{"less"}\NormalTok{) \{}
+
+\CommentTok{# phat1, phat2 are observed proportions of each group}
+\CommentTok{# n1, n2 are sample sizes of each group}
+\CommentTok{# x1, x2 are admitted number of each group}
+\CommentTok{# phat is the weighted average of the two sample proportions}
+\CommentTok{# p.value is the hypothesis value}
+  
+\NormalTok{  z.stat <-}\StringTok{ }\OtherTok{NULL}
+\NormalTok{  cint <-}\StringTok{ }\OtherTok{NULL}
+\NormalTok{  p.val <-}\StringTok{ }\OtherTok{NULL}
+\NormalTok{  phat1 <-}\StringTok{ }\NormalTok{x1}\OperatorTok{/}\NormalTok{n1}
+\NormalTok{  phat2 <-}\StringTok{ }\NormalTok{x2}\OperatorTok{/}\NormalTok{n2}
+\NormalTok{  qhat1 <-}\StringTok{ }\DecValTok{1} \OperatorTok{-}\StringTok{ }\NormalTok{phat1}
+\NormalTok{  qhat2 <-}\StringTok{ }\DecValTok{1} \OperatorTok{-}\StringTok{ }\NormalTok{phat2}
+\NormalTok{  phat <-}\StringTok{ }\NormalTok{(n1}\OperatorTok{*}\NormalTok{phat1 }\OperatorTok{+}\StringTok{ }\NormalTok{n2}\OperatorTok{*}\NormalTok{phat2)}\OperatorTok{/}\NormalTok{(n1}\OperatorTok{+}\NormalTok{n2)}
+\NormalTok{  qhat <-}\StringTok{ }\DecValTok{1} \OperatorTok{-}\StringTok{ }\NormalTok{phat}
+  
+ 
+  \ControlFlowTok{if}\NormalTok{(}\KeywordTok{length}\NormalTok{(p) }\OperatorTok{>}\StringTok{ }\DecValTok{0}\NormalTok{) \{ }
+\NormalTok{    SE.phat <-}\StringTok{ }\KeywordTok{sqrt}\NormalTok{(phat}\OperatorTok{*}\NormalTok{qhat}\OperatorTok{*}\NormalTok{((}\DecValTok{1}\OperatorTok{/}\NormalTok{n1)}\OperatorTok{+}\NormalTok{(}\DecValTok{1}\OperatorTok{/}\NormalTok{n2))) }
+\NormalTok{    z.stat <-}\StringTok{ }\NormalTok{(phat1 }\OperatorTok{-}\StringTok{ }\NormalTok{phat2)}\OperatorTok{/}\NormalTok{SE.phat}
+    \ControlFlowTok{if}\NormalTok{(z.stat}\OperatorTok{>}\DecValTok{0}\NormalTok{) \{}
+\NormalTok{      p.val <-}\StringTok{ }\KeywordTok{pnorm}\NormalTok{(z.stat, }\DataTypeTok{lower.tail =} \OtherTok{FALSE}\NormalTok{)\}}
+    \ControlFlowTok{if}\NormalTok{(z.stat}\OperatorTok{<}\DecValTok{0}\NormalTok{) \{}
+\NormalTok{      p.val <-}\StringTok{ }\KeywordTok{pnorm}\NormalTok{(z.stat, }\DataTypeTok{lower.tail =} \OtherTok{TRUE}\NormalTok{)}
+\NormalTok{    \}}
+      \ControlFlowTok{if}\NormalTok{(alternative}\OperatorTok{==}\StringTok{"two.sided"}\NormalTok{) \{}
+\NormalTok{        p.val <-}\StringTok{ }\NormalTok{p.val }\OperatorTok{*}\StringTok{ }\DecValTok{2}\NormalTok{\}}
+    
+      \ControlFlowTok{if}\NormalTok{(alternative}\OperatorTok{==}\StringTok{"greater"}\NormalTok{) \{}
+\NormalTok{        p.val <-}\StringTok{ }\DecValTok{1} \OperatorTok{-}\StringTok{ }\NormalTok{p.val}
+\NormalTok{      \}}
+\NormalTok{    \} }\ControlFlowTok{else}\NormalTok{ \{}
+    \CommentTok{# Construct a confidence interval   }
+\NormalTok{      SE.phat <-}\StringTok{ }\KeywordTok{sqrt}\NormalTok{((phat1}\OperatorTok{*}\NormalTok{qhat1}\OperatorTok{/}\NormalTok{n1) }\OperatorTok{+}\StringTok{ }\NormalTok{(phat2}\OperatorTok{*}\NormalTok{qhat2}\OperatorTok{/}\NormalTok{n2))}
+\NormalTok{    \}}
+\NormalTok{    cint <-}\StringTok{ }\NormalTok{phat1}\OperatorTok{-}\NormalTok{phat2 }\OperatorTok{+}\StringTok{ }\KeywordTok{c}\NormalTok{(}\OperatorTok{-}\DecValTok{1}\OperatorTok{*}\NormalTok{((}\KeywordTok{qnorm}\NormalTok{(((}\DecValTok{1} \OperatorTok{-}\StringTok{ }\NormalTok{conf.level)}\OperatorTok{/}\DecValTok{2}\NormalTok{) }\OperatorTok{+}\StringTok{ }\NormalTok{conf.level))}\OperatorTok{*}\NormalTok{SE.phat),}
+\NormalTok{                        ((}\KeywordTok{qnorm}\NormalTok{(((}\DecValTok{1} \OperatorTok{-}\StringTok{ }\NormalTok{conf.level)}\OperatorTok{/}\DecValTok{2}\NormalTok{) }\OperatorTok{+}\StringTok{ }\NormalTok{conf.level))}\OperatorTok{*}\NormalTok{SE.phat))}
+  
+  \KeywordTok{return}\NormalTok{(}\KeywordTok{list}\NormalTok{(}\DataTypeTok{estimate=}\NormalTok{phat1}\OperatorTok{-}\NormalTok{phat2, }\DataTypeTok{z.stat=}\NormalTok{z.stat, }\DataTypeTok{p.val=}\NormalTok{p.val, }\DataTypeTok{cint=}\NormalTok{cint))}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{two.proptest_norm}\NormalTok{(}\DataTypeTok{x1=}\DecValTok{1198}\NormalTok{, }\DataTypeTok{x2=}\DecValTok{557}\NormalTok{, }\DataTypeTok{n1=}\DecValTok{2691}\NormalTok{, }\DataTypeTok{n2=}\DecValTok{1835}\NormalTok{, }\DataTypeTok{p=}\DecValTok{0}\NormalTok{, }\DataTypeTok{conf.level=}\FloatTok{0.95}\NormalTok{, }\DataTypeTok{alternative =} \StringTok{"two.sided"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## $estimate
+## [1] 0.1416454
+## 
+## $z.stat
+## [1] 9.602358
+## 
+## $p.val
+## [1] 7.8136e-22
+## 
+## $cint
+## [1] 0.1127338 0.1705571
+\end{verbatim}
+
+According to the result of two-sample binomial test for proportions, the
+test statistic is 9.602358, p-value is 7.8136e-22, confidence interval
+is (0.1127338, 0.1705571). Because the null hypothesis states that there
+is no differences between the proportions of each group, so the
+difference between two proportions should be 0. According to the
+confidence interval, we can see that 0 is not included. In this case, we
+should reject the null. We can double check this conclusion through
+p-value. The p-value is 7.8136e-22 which is way less than 0.05. In
+conclusion, the proportion of male admitted to UCB and the proportion of
+female admitted to UCB are significantly different.
+
+
+\end{document}

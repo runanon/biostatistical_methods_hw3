@@ -1,7 +1,8 @@
 ---
 title: "Biostatistical Methods Homework 3"
-output: pdf_document
+output: word_document
 ---
+
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
@@ -11,6 +12,56 @@ knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 library(knitr)
 ```
+
+# Problem 1
+
+##1
+
+$$
+\begin{aligned}
+S^{2} &= \frac{1}{n-1}\sum_{i=1}^{n}\left(X_{i}^{2}+\bar{X}^{2}-2X_{i}\bar{X}\right)\\
+&= \frac{1}{n-1}\left(\sum_{i=1}^{n}X_{i}^{2}+\sum_{i=1}^{n}\bar{X}^{2}-\sum_{i=1}^{n}2X_{i}\bar{X}\right)\\
+&=\frac{1}{n-1}\left(\sum_{i=1}^{n}X_{i}^{2} + n\bar{X}^{2} - 2\bar{X}\sum_{i=1}^{n}X_{i}\right)\\
+&= \frac{1}{n-1}\left(\sum_{i=1}^{n}X_{i}^{2} + n\bar{X}^{2} - 2\bar{X}n\bar{X}\right)\\
+&= \frac{1}{n-1}\left(\sum_{i=1}^{n}X_{i}^{2} + n\bar{X}^{2} - 2n\bar{X}^{2}\right)\\
+&= \frac{1}{n-1}\left(\sum_{i=1}^{n}X_{i}^{2} - n\bar{X}^{2} \right)\\
+E(S^{2}) &= \frac{1}{n-1}\left [ E(\sum_{i=1}^{n}X_{i}^{2} )- E(n\bar{X}^{2}) \right ]\\
+&= \frac{1}{n-1}\left [ nE(X_{i}^{2} )- nE(\bar{X}^{2}) \right ]\\
+&= \frac{n}{n-1}\left [ E(X_{i}^{2} )- E(\bar{X}^{2}) \right ]\\
+Var(\bar{X}) &= E\bar{X}^{2}-(E\bar{X})^{2}\\
+E\bar{X}^{2} &= Var(\bar{X}) + (E\bar{X})^{2} \\
+&= Var\left [ \frac{\sum_{i=1}^{n}X_{i}}{n} \right ]+\mu^{2}\\
+\end{aligned}
+$$
+$$
+\begin{aligned}
+&=\frac{1}{n^{2}}Var\left ( \sum_{i=1}^{n}X_{i} \right )+\mu^{2}\\
+&=\frac{1}{n^{2}}\sum_{i=1}^{n}Var(X_{i})+\mu^{2}\\
+&=\frac{1}{n^{2}}n\sigma^{2}+\mu^{2}\\
+&=\frac{1}{n}\sigma^{2}+\mu^{2}\\
+Var(X_{i})&=EX_{i}^{2}-(EX_{i})^{2}\\
+EX_{i}^{2}&=\sigma^{2}+\mu^{2}\\
+E(S^{2})&=\frac{n}{n-1}\left[\sigma^{2}+\mu^{2}-(\frac{1}{n}\sigma^{2}+\mu^{2})\right]\\
+&=\frac{n}{n-1}\left[\sigma^{2}-\frac{1}{n}\sigma^{2}\right]\\
+&=\frac{n}{n-1}\left[\frac{n-1}{n}\sigma^{2}\right]\\
+&=\sigma^{2}\\
+\end{aligned}
+$$
+
+
+
+## 2
+$$
+\begin{aligned}
+(y_{ij}-\bar{y})^{2}&=(y_{ij}-\bar{y_{i}}+\bar{y_{i}}-\bar{y})^{2}\\
+&=(y_{ij}-\bar{y_{i}})^{2}+(\bar{y_{i}}-\bar{y})^{2}-2(y_{ij}-\bar{y_{i}})(\bar{y_{i}}-\bar{y})\\
+\sum_{i=1}^{k}\sum_{j=1}^{n_{j}}(y_{ij}-\bar{y})^{2}&=\sum_{i=1}^{k}\sum_{j=1}^{n_{j}}(y_{ij}-\bar{y_{i}})^{2}+\sum_{i=1}^{k}\sum_{j=1}^{n_{j}}(\bar{y_{i}}-\bar{y})^{2}-\sum_{i=1}^{k}\sum_{j=1}^{n_{j}}2(y_{ij}-\bar{y_{i}})(\bar{y_{i}}-\bar{y})\\
+\sum_{i=1}^{k}\sum_{j=1}^{n_{j}}(y_{ij}-\bar{y_{i}})(\bar{y_{i}}-\bar{y})&=\sum_{i=1}^{k}\sum_{j=1}^{n_{j}}(y_{ij}-\bar{y_{i}})\bar{y_{i}}-\sum_{i=1}^{k}\sum_{j=1}^{n_{j}}(y_{ij}-\bar{y_{i}})\bar{y}\\
+&=0+0=0\\
+\sum_{i=1}^{k}\sum_{j=1}^{n_{j}}(y_{ij}-\bar{y})^{2}&=\sum_{i=1}^{k}\sum_{j=1}^{n_{j}}(y_{ij}-\bar{y_{i}})^{2}+\sum_{i=1}^{k}\sum_{j=1}^{n_{j}}(\bar{y_{i}}-\bar{y})^{2}
+\end{aligned}
+$$
+
 
 # Problem 2
 
@@ -312,14 +363,12 @@ According to the Dunnett method, we can see that the mean between below and abov
 
 ##4. Write a short paragraph summarizing your results as if you were presenting to the rehabilitation center director.(1p)
 
-
-
+According to the analysis, we can conclude that for person who is in better physical status, the average days required in physical therapy is relatively less. However, the average days differences between below group and average group is not significant. We can conclude that the average days taken by patients in above group until rehabilitation is much less than patients in average group's and below group's. In a more conservative way, we might also says there is actually no significant differences between the average days taken by patients in each group.
 
 
 # Problem 4
 
 For this problem you will use the built-in R data called “UCBAdmissions” (library ‘datasets’), an example of sex bias in admission practices. You are interested in comparing the proportions of women vs men admitted at Berkeley (over all departments).
-
 
 ## 1. Provide point estimates and 95% CIs for the overall proportions of men and women admitted at Berkeley. Briefly comment on the values. (5p)
 
