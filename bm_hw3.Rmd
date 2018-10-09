@@ -1,5 +1,5 @@
 ---
-title: "bm_hw_3"
+title: "Biostatistical Methods Homework 3"
 output: pdf_document
 ---
 
@@ -14,7 +14,9 @@ library(knitr)
 
 # Problem 2
 
-## 1
+Cigarette smoking continues to be a public health problem with major consequences on heart and lung diseases. Less is actually known about the consequences of quitting smoking. A recent study selected a group of 10 women working at a small medical practice, ages 50-64, that had smoked at least 1 pack/day and quit for at least 6 years (data “HeavySmoke.csv”).
+
+## 1. The first question is to assess if their body mass index (BMI) has changed 6 years after quitting smoking. Perform an appropriate hypothesis test and interpret your findings. (5p)
 
 ```{r}
 smoke_data = read_csv("./HeavySmoke.csv") %>%
@@ -76,7 +78,7 @@ $$
 Intepretation:
 We use paired t-test to test whether those 10 women's BMI has changed over 6 years after quitting smoking. According to the solutions listed above, we should reject the null, which means their BMI has changed significantly over 6 years.
 
-## 2
+## 2. The investigators suspected an overall change in weight over the years, so they decided to enroll a control group of 50-64 years of age that never smoked (data NeverSmoke.csv). Perform an appropriate test to compare the BMI changes between women that quit smoking and women who never smoked. Interpret the findings. (5p)
 
 ```{r}
 nonsmoke_data = read_csv("./NeverSmoke.csv") %>%
@@ -154,8 +156,7 @@ $$
 Intepretation:
 First, we use F-test to test the equality of variances. The result shows that the variances of two groups are equal. Then we use t-test to test the equality of mean. The result shows that the means of two groups are equal. So there is no significant BMI changes between women who quit smoking and women who never smoked.
 
-## 3
-Show the corresponding 95% CI associated with part 2. Interpret it in the context of the problem.
+## 3. Show the corresponding 95% CI associated with part 2. Interpret it in the context of the problem.
 
 $$
 (\bar{X_{1}}-\bar{X_{2}}) - t_{n_{1}+n_{2}-2, 1-\alpha /2}s\sqrt{1/n_{1}+1/n_{2}}\leq \mu\leq (\bar{X_{1}}-\bar{X_{2}}) + t_{n_{1}+n_{2}-2, 1-\alpha /2}s\sqrt{1/n_{1}+1/n_{2}}
@@ -182,11 +183,13 @@ $$
 Intepretation:
 The 95% CI for these two samples are (-6.262569, 3.162569). This CI means that we are 95% confidence that the true population mean difference between women that quit smoking and women who never smoked lies between the lower and upper limits of the interval.
 
-## 4
-### a
+## 4. Suppose the researchers want to launch into a larger study to prove that a difference does exist between the two groups with respect to BMI changes.
+
+### a. How would you design the new study? Comment on elements of study design such as randomization, possible causes of bias that should be avoided, etc. (5p)
+
 For this new study, I would choose 50 women who never smoked and 50 women who quit smoking. To build the counterfactual, we should make sure that these two groups are comparable, which means except exposure, other conditions of women in each group should be the same (e.g health condition, age). Then, recording the BMI of each group. The possible bias in this study  should be avoided is that 1) we should have sufficient sample size. Greater sample size can better represent the population. If the sample size is too small, the result might be inaccurate; 2) make sure there is no loss to follow up. 
 
-### b
+### b. Calculate the sample size for the new study. Assuming a two-sided test, create a table showing sample size estimates for 80% vs 90% power, 2.5% vs 5% significance level, using the following information: the true mean increase for smokers is 3.0 kg/m2, with a standard deviation of 2.0 kg/m2; for never-smokers the true mean increase is 1.7 kg/m2, with a standard deviation of 1.5 kg/m2. (R only is allowed for calculations). (5p)
 
 $$
 n = \frac{(z_{1-\beta} + z_{1-\alpha /2})^{2}\sigma^{2}}{(\mu_{0}-\mu_{1})^{2}}
@@ -216,9 +219,9 @@ $\alpha$    |            |            |
 A rehabilitation center is interested in examining the relationship between physical status before therapy and the time (days) required in physical therapy until successful rehabilitation. Records from patients 18-30 years old were collected and provided to you for statistical analysis (data “Knee.csv”).
 
 Assuming that data are normally distributed, answer the questions below:
-1. Generate descriptive statistics for each group and comment on the differences observed (R only). (4p)
 
-## 1
+
+## 1. Generate descriptive statistics for each group and comment on the differences observed (R only). (4p)
 
 ```{r}
 knee_data = read_csv("./Knee.csv") %>%
@@ -243,7 +246,7 @@ Group       |    mean    |     sd     |   3rd Qu.  |
 
 As we can see above, the average days required in physical therapy until successful rehabilitation is largest in Below group and smallest in Above group. The number of 3rd Qu. is largest in the Below group and smallest in the Above group. These two findings are conform with our common sense. If the physical status before therapy is relatively better, the days required should be relatively shorter. 
 
-## 2
+## 2. Using a type I error of 0.01, obtain the ANOVA table. State the hypotheses, decision rule and conclusion (R only). (5p)
 
 ```{r}
 below <- knee_data$below
@@ -275,8 +278,7 @@ $$
 F_{k-1,n-k,1-\alpha}=5.719022\\
 F > F_{k-1,n-k,1-\alpha},\ reject\ H_{0}
 $$
-## 3
-(R only). (5p)
+## 3. Based on your response in part 3, perform pairwise comparisons with the appropriate adjustments (Bonferroni, Tukey, and Dunnett – ‘below average’ as reference). Report your findings and comment on the differences/similarities between these three methods (R only). (5p)
 
 ### Bonferroni
 ```{r}
@@ -333,18 +335,145 @@ For this problem you will use the built-in R data called “UCBAdmissions” (li
 
 ```{r}
 library(datasets)
-ucb_ad = UCBAdmissions
+ucb_ad = as.data.frame(UCBAdmissions) %>%
+  janitor::clean_names()
 ```
 
+```{r}
+ucb_women = ucb_ad %>%
+  filter(gender == "Female")
+ucb_men = ucb_ad %>%
+  filter(gender == "Male")
+
+ucb_admitted_women = ucb_women %>%
+  filter(admit == "Admitted")
+ucb_admitted_men = ucb_men %>%
+  filter(admit == "Admitted")
+
+X_men = sum(ucb_admitted_men$freq)
+X_women = sum(ucb_admitted_women$freq)
+
+n_men = sum(ucb_men$freq)
+n_women = sum(ucb_women$freq)
+
+p_hat_men = X_men/n_men
+p_hat_women = X_women/n_women
+```
+
+```{r}
+# CI for men
+CIL_men = p_hat_men - (qnorm(0.975) * sqrt(p_hat_men * (1-p_hat_men)/n_men))
+CIR_men = p_hat_men + (qnorm(0.975) * sqrt(p_hat_men * (1-p_hat_men)/n_men))
+
+#CI for women
+CIL_women = p_hat_women - (qnorm(0.975) * sqrt(p_hat_women * (1-p_hat_women)/n_women))
+CIR_women = p_hat_women + (qnorm(0.975) * sqrt(p_hat_women * (1-p_hat_women)/n_women))
+```
+
+The calculation of CI for a population proportion:
+$$
+\hat{p}=\frac{\sum_{i=1}^{n}X_{i}}{n}=\frac{X}{n}
+$$
+
+$$
+E(\hat{p}) = p
+$$
+
+$$
+Var(\hat{p}) = \frac{p(1-p)}{n}
+$$
+$$
+\hat{p} = \bar{X} \sim N(p,\frac{p(1-p)}{n})
+$$
+$$
+(\hat{p} - z_{1-\alpha/2}\sqrt{\frac{\hat{p}(1-\hat{p})}{n}},\hat{p} + z_{1-\alpha/2}\sqrt{\frac{\hat{p}(1-\hat{p})}{n}})
+$$
+
+For men:
+$$
+\hat{p}=\frac{1198}{2691}=0.4451877
+$$
+$$
+\hat{p} - z_{1-\alpha/2}\sqrt{\frac{\hat{p}(1-\hat{p})}{n}}=0.4264102
+$$
+$$
+\hat{p} + z_{1-\alpha/2}\sqrt{\frac{\hat{p}(1-\hat{p})}{n}}=0.4639651
+$$
+So for men the CI is:
+$$
+(0.4264102,0.4639651)
+$$
+
+For women:
+
+$$
+\hat{p}=\frac{557}{1835}=0.3035422
+$$
+
+$$
+\hat{p} - z_{1-\alpha/2}\sqrt{\frac{\hat{p}(1-\hat{p})}{n}}=0.2825051
+$$
+$$
+\hat{p} + z_{1-\alpha/2}\sqrt{\frac{\hat{p}(1-\hat{p})}{n}}=0.3245794
+$$
+So for women the CI is:
+$$
+(0.2825051,0.3245794)
+$$
+Comment:
+We are 95% confidence that the true population proportion of men admitted at Berkeley lies between 0.4264102 and 0.4639651, and the true population proportions of women admitted at Berkeley lies between 0.2825051 and 0.3245794. Simply judging from number, it seems that the CI of women is lower than CI of men. But we don't know for sure until we do the hypothesis test.
 
 
+## 2. Perform a hypothesis test to assess if the two proportions in 1) are significantly different. Report the results including the test statistic and p-value and an overall conclusion of your findings. This part should contain both ‘hand’ and R calculations. For the latter, feel free to use built-in functions or to create your own. (5p)
 
+```{r}
+two.proptest_norm <- function(x1, x2, n1, n2, p=NULL, conf.level=0.95, alternative="less") {
 
+# phat1, phat2 are observed proportions of each group
+# n1, n2 are sample sizes of each group
+# x1, x2 are admitted number of each group
+# phat is the weighted average of the two sample proportions
+# p.value is the hypothesis value
+  
+  z.stat <- NULL
+  cint <- NULL
+  p.val <- NULL
+  phat1 <- x1/n1
+  phat2 <- x2/n2
+  qhat1 <- 1 - phat1
+  qhat2 <- 1 - phat2
+  phat <- (n1*phat1 + n2*phat2)/(n1+n2)
+  qhat <- 1 - phat
+  
+ 
+  if(length(p) > 0) { 
+    SE.phat <- sqrt(phat*qhat*((1/n1)+(1/n2))) 
+    z.stat <- (phat1 - phat2)/SE.phat
+    if(z.stat>0) {
+      p.val <- pnorm(z.stat, lower.tail = FALSE)}
+    if(z.stat<0) {
+      p.val <- pnorm(z.stat, lower.tail = TRUE)
+    }
+      if(alternative=="two.sided") {
+        p.val <- p.val * 2}
+    
+      if(alternative=="greater") {
+        p.val <- 1 - p.val
+      }
+    } else {
+    # Construct a confidence interval   
+      SE.phat <- sqrt((phat1*qhat1/n1) + (phat2*qhat2/n2))
+    }
+    cint <- phat1-phat2 + c(-1*((qnorm(((1 - conf.level)/2) + conf.level))*SE.phat),
+                        ((qnorm(((1 - conf.level)/2) + conf.level))*SE.phat))
+  
+  return(list(estimate=phat1-phat2, z.stat=z.stat, p.val=p.val, cint=cint))
+}
+```
 
+```{r}
+two.proptest_norm(x1=1198, x2=557, n1=2691, n2=1835, p=0, conf.level=0.95, alternative = "two.sided")
+```
 
-2. Perform a hypothesis test to assess if the two proportions in 1) are significantly different. Report the results including the test statistic and p-value and an overall conclusion of your findings. This part should contain both ‘hand’ and R calculations. For the latter, feel free to use built-in functions or to create your own. (5p)
-
-
-
-
+According to the result of two-sample binomial test for proportions, the test statistic is 9.602358, p-value is 7.8136e-22, confidence interval is (0.1127338, 0.1705571). Because the null hypothesis states that there is no differences between the proportions of each group, so the difference between two proportions should be 0. According to the confidence interval, we can see that 0 is not included. In this case, we should reject the null. We can double check this conclusion through p-value. The p-value is 7.8136e-22 which is way less than 0.05. In conclusion, the proportion of male admitted to UCB and the proportion of female admitted to UCB are significantly different. 
 
