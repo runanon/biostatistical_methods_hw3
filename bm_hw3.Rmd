@@ -82,7 +82,8 @@ We use paired t-test to test whether those 10 women's BMI has changed over 6 yea
 
 ```{r}
 nonsmoke_data = read_csv("./NeverSmoke.csv") %>%
-  janitor::clean_names()
+  janitor::clean_names() %>%
+  mutate(diff = bmi_6yrs - bmi_base)
 ```
 
 ```{r}
@@ -93,7 +94,7 @@ qf(0.975, n1-1, n2-1)
 
 ```{r}
 #test equality for variances
-var.test(nonsmoke_data$bmi_base, nonsmoke_data$bmi_6yrs, alternative = "two.sided")
+var.test(smoke_data$diff, nonsmoke_data$diff, alternative = "two.sided")
 ```
 
 $$
@@ -105,7 +106,7 @@ H_{0}: \sigma_{1} ^{2} \neq  \sigma_{2} ^{2}
 $$
 
 $$
-F= \frac{s_{1}^{2}}{s_{2}^{2}}\sim F_{n_{1}-1,n_{2}-1}=0.94826
+F= \frac{s_{1}^{2}}{s_{2}^{2}}\sim F_{n_{1}-1,n_{2}-1}=1.162722 
 $$
 
 $$
@@ -122,7 +123,7 @@ qt(0.975, n1+n2-2)
 
 
 ```{r}
-t.test(nonsmoke_data$bmi_base, nonsmoke_data$bmi_6yrs, var.equal = TRUE, paired = FALSE)
+t.test(nonsmoke_data$diff, smoke_data$diff, var.equal = TRUE, paired = FALSE)
 ```
 
 $$
@@ -134,15 +135,11 @@ H_{1} : \mu_{1} \neq \mu_{2}
 $$
 
 $$
-s^{2} = \frac{(n_{1}-1)s_{1}^{2}+(n_{2}-1)s_{2}^{2}}{n_{1}+n_{2}-2}= 25.15739
+s^{2} = \frac{(n_{1}-1)s_{1}^{2}+(n_{2}-1)s_{2}^{2}}{n_{1}+n_{2}-2}= 5.6405
 $$
 
 $$
-t = \frac{\bar{X_{1}}-\bar{X_{2}}}{s\sqrt{(\frac{1}{n_{1}}+\frac{1}{n_{2}})}}=-0.69101\\
-$$
-
-$$
-\left | t \right |=0.69101
+t = \frac{\bar{X_{1}}-\bar{X_{2}}}{s\sqrt{(\frac{1}{n_{1}}+\frac{1}{n_{2}})}}=4.6228\\
 $$
 
 $$
@@ -150,11 +147,11 @@ t_{n_{1}+n_{2}-2, 1-\alpha /2}=2.100922
 $$
 
 $$
-For\ \left | t \right |<t_{n_{1}+n_{2}-2, 1-\alpha /2},\ fail\ to \ reject\ H_{0},\ \mu_{1} = \mu_{2}
+For\ \left | t \right |>t_{n_{1}+n_{2}-2, 1-\alpha /2},\ reject\ H_{0},\ \mu_{1} \neq \mu_{2}
 $$
 
 Intepretation:
-First, we use F-test to test the equality of variances. The result shows that the variances of two groups are equal. Then we use t-test to test the equality of mean. The result shows that the means of two groups are equal. So there is no significant BMI changes between women who quit smoking and women who never smoked.
+First, we use F-test to test the equality of variances. The result shows that the variances of two groups are equal. Then we use t-test to test the equality of mean. The result shows that the means of BMI changes of two groups are different. So there is significant BMI changes between women who quit smoking and women who never smoked.
 
 ## 3. Show the corresponding 95% CI associated with part 2. Interpret it in the context of the problem.
 
@@ -191,26 +188,20 @@ For this new study, I would choose 50 women who never smoked and 50 women who qu
 
 ### b. Calculate the sample size for the new study. Assuming a two-sided test, create a table showing sample size estimates for 80% vs 90% power, 2.5% vs 5% significance level, using the following information: the true mean increase for smokers is 3.0 kg/m2, with a standard deviation of 2.0 kg/m2; for never-smokers the true mean increase is 1.7 kg/m2, with a standard deviation of 1.5 kg/m2. (R only is allowed for calculations). (5p)
 
+
 $$
-n = \frac{(z_{1-\beta} + z_{1-\alpha /2})^{2}\sigma^{2}}{(\mu_{0}-\mu_{1})^{2}}
+\Delta = 3-1.7=1.3
 $$
-Smoke sample size
+
+$$
+n = \frac{(z_{1-\beta} + z_{1-\alpha /2})^{2}(\sigma_{1}^{2}+\sigma_{2}^{2})}{\Delta ^{2}}
+$$
 
 Power       |    0.8     |     0.9    |
 ------------|------------|------------|
 $\alpha$    |                         |
-      0 .25 |  4.224461  |  5.516092  |
-        0.5 |  3.488391  |  4.669966  |
-
-
-Never-Smoke sample size
-
-Power       |    0.8     |     0.9    |            
-------------|------------|------------|
-$\alpha$    |            |            | 
-       0.25 |  7.400115  |  9.662704  |
-        0.5 |  6.11072   |  8.18052   |
-
+      0.025 |     46     |     60     |
+       0.05 |     38     |     50     |
 
 
 
