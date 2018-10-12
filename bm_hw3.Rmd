@@ -213,23 +213,23 @@ $$
 
 ```{r}
 t = qt(0.975, 18)
-s = sqrt(25.15739)
-CIL = 28.86 - 30.41 - (t * s * sqrt(2/10))
-CIR = 28.86 - 30.41 + (t * s * sqrt(2/10))
+s = sqrt(5.6405)
+CIL = -1.55 - (-3.36) - (t * s * sqrt(2/10))
+CIR = -1.55 - (-3.36) + (t * s * sqrt(2/10))
 ```
 
 $$
 (\bar{X_{1}}-\bar{X_{2}}) - t_{n_{1}+n_{2}-2, 1-\alpha /2}s\sqrt{1/n_{1}+1/n_{2}} = 
--6.262569
+-0.4214324
 $$
 $$
-(\bar{X_{1}}-\bar{X_{2}}) + t_{n_{1}+n_{2}-2, 1-\alpha /2}s\sqrt{1/n_{1}+1/n_{2}} = 3.162569
+(\bar{X_{1}}-\bar{X_{2}}) + t_{n_{1}+n_{2}-2, 1-\alpha /2}s\sqrt{1/n_{1}+1/n_{2}} = 4.041432
 $$
 $$
--6.262569 \leq \mu \leq 3.162569
+-0.4214324 \leq \mu \leq 4.041432
 $$
 Intepretation:
-The 95% CI for these two samples are (-6.262569, 3.162569). This CI means that we are 95% confidence that the true population mean difference between women that quit smoking and women who never smoked lies between the lower and upper limits of the interval.
+The 95% CI for these two samples are (-0.4214324, 4.041432). This CI means that we are 95% confidence that the true population mean difference between women that quit smoking and women who never smoked lies between the lower and upper limits of the interval.
 
 ## 4. Suppose the researchers want to launch into a larger study to prove that a difference does exist between the two groups with respect to BMI changes.
 
@@ -302,11 +302,11 @@ sd(knee_data$above, na.rm = T)
 ```
 
 
-Group       |    mean    |     sd     |   3rd Qu.  |
-------------|------------|------------|------------|
-      Below |     38     |  5.477226  |     42     |
-    Average |     33     |  3.91578   |     35     |
-      Above |    23.57   |  4.197505  |    24.5    |
+Group       |    mean    |     sd     |   3rd Qu.  |   median   |
+------------|------------|------------|------------|------------|
+      Below |     38     |  5.477226  |     42     |     40     |
+    Average |     33     |  3.91578   |     35     |     32     |
+      Above |    23.57   |  4.197505  |    24.5    |     22     |
 
 As we can see above, the average days required in physical therapy until successful rehabilitation is largest in Below group and smallest in Above group. The number of 3rd Qu. is largest in the Below group and smallest in the Above group. These two findings are conform with our common sense. If the physical status before therapy is relatively better, the days required should be relatively shorter. 
 
@@ -349,7 +349,7 @@ $$
 $$
 F > F_{k-1,n-k,1-\alpha},\ reject\ H_{0}
 $$
-## 3. Based on your response in part 3, perform pairwise comparisons with the appropriate adjustments (Bonferroni, Tukey, and Dunnett – ‘below average’ as reference). Report your findings and comment on the differences/similarities between these three methods (R only). (5p)
+## 3. Based on your response in part 2, perform pairwise comparisons with the appropriate adjustments (Bonferroni, Tukey, and Dunnett – ‘below average’ as reference). Report your findings and comment on the differences/similarities between these three methods (R only). (5p)
 
 ### Bonferroni
 ```{r}
@@ -410,30 +410,33 @@ ucb_ad = as.data.frame(UCBAdmissions) %>%
 ```
 
 ```{r}
-ucb_admitted = ucb_ad %>%
-  filter(admit == "Admitted")
-
-ucb_ad_male = ucb_admitted %>%
+ucb_women = ucb_ad %>% 
+  filter(gender == "Female")
+ucb_men = ucb_ad %>% 
   filter(gender == "Male")
 
-ucb_ad_female = ucb_admitted %>%
-  filter(gender == "Female")
+ucb_admitted_women = ucb_women %>% 
+  filter(admit == "Admitted")
+ucb_admitted_men = ucb_men %>%
+  filter(admit == "Admitted") 
 
-p_hat_male = sum(ucb_ad_male$freq)/sum(ucb_admitted$freq)
+X_men = sum(ucb_admitted_men$freq)
+X_women = sum(ucb_admitted_women$freq) 
 
-admitted = sum(ucb_admitted$freq)
+n_men = sum(ucb_men$freq)
+n_women = sum(ucb_women$freq)
 
-p_hat_female = 1 - p_hat_male
+p_hat_men = X_men/n_men 
+p_hat_women = X_women/n_women
 ```
 
 ```{r}
 # CI for men
-CIL_male = p_hat_male - (qnorm(0.975) * sqrt(p_hat_male * (1-p_hat_male)/admitted))
-CIR_male = p_hat_male + (qnorm(0.975) * sqrt(p_hat_male * (1-p_hat_male)/admitted))
-
+CIL_men = p_hat_men - (qnorm(0.975) * sqrt(p_hat_men * (1-p_hat_men)/n_men)) 
+CIR_men = p_hat_men + (qnorm(0.975) * sqrt(p_hat_men * (1-p_hat_men)/n_men))
 #CI for women
-CIL_female = p_hat_female - (qnorm(0.975) * sqrt(p_hat_female * (1-p_hat_female)/admitted))
-CIR_female = p_hat_female + (qnorm(0.975) * sqrt(p_hat_female * (1-p_hat_female)/admitted))
+CIL_women = p_hat_women - (qnorm(0.975) * sqrt(p_hat_women * (1- p_hat_women)/n_women))
+CIR_women = p_hat_women + (qnorm(0.975) * sqrt(p_hat_women * (1- p_hat_women)/n_women))
 ```
 
 The calculation of CI for a population proportion:
@@ -457,88 +460,88 @@ $$
 
 For male:
 $$
-\hat{p}=\frac{1198}{1755}=0.682621
+\hat{p}=\frac{1198}{2691}=0.4451877
 $$
 $$
-\hat{p} - z_{1-\alpha/2}\sqrt{\frac{\hat{p}(1-\hat{p})}{n}}=0.6608
+\hat{p} - z_{1-\alpha/2}\sqrt{\frac{\hat{p}(1-\hat{p})}{n}}=0.4264102
 $$
 $$
-\hat{p} + z_{1-\alpha/2}\sqrt{\frac{\hat{p}(1-\hat{p})}{n}}=0.7044
+\hat{p} + z_{1-\alpha/2}\sqrt{\frac{\hat{p}(1-\hat{p})}{n}}=0.4639651
 $$
 So for male the CI is:
 $$
-(0.6608,0.7044)
+(0.4264102,0.4639651)
 $$
 
 For female:
 
 $$
-\hat{p}=\frac{557}{1755}=0.3174
+\hat{p}=\frac{557}{1835}=0.3173789
 $$
 
 $$
-\hat{p} - z_{1-\alpha/2}\sqrt{\frac{\hat{p}(1-\hat{p})}{n}}=0.2956
+\hat{p} - z_{1-\alpha/2}\sqrt{\frac{\hat{p}(1-\hat{p})}{n}}=0.2825051
 $$
 $$
-\hat{p} + z_{1-\alpha/2}\sqrt{\frac{\hat{p}(1-\hat{p})}{n}}=0.3392
+\hat{p} + z_{1-\alpha/2}\sqrt{\frac{\hat{p}(1-\hat{p})}{n}}=0.3245794
 $$
 So for female the CI is:
 $$
-(0.2956,0.3392)
+(0.2825051,0.3245794)
 $$
 Comment:
-We are 95% confidence that the true population proportion of men admitted at Berkeley lies between 0.6608 and 0.7044, and the true population proportions of women admitted at Berkeley lies between 0.2956 and 0.3392. Simply judging from number, it seems that the CI of women is lower than CI of men. But we don't know for sure until we do the hypothesis test.
+We are 95% confidence that the true population proportion of men admitted at Berkeley lies between 0.4264102 and 0.4639651, and the true population proportions of women admitted at Berkeley lies between 0.2825051 and 0.3245794. Simply judging from number, it seems that the CI of women is lower than CI of men. But we don’t know for sure until we do the hypothesis test.
 
 ## 2. Perform a hypothesis test to assess if the two proportions in 1) are significantly different. Report the results including the test statistic and p-value and an overall conclusion of your findings. This part should contain both ‘hand’ and R calculations. For the latter, feel free to use built-in functions or to create your own. (5p)
 
 ```{r}
-two.proptest_norm <- function(x1, x2, n1, n2, p=NULL, conf.level=0.95, alternative="less") {
-
-# phat1, phat2 are observed proportions of each group
-# n1, n2 are sample sizes of each group
-# x1, x2 are admitted number of each group
-# phat is the weighted average of the two sample proportions
-# p.value is the hypothesis value
-  
-  z.stat <- NULL
-  cint <- NULL
-  p.val <- NULL
-  phat1 <- x1/n1
-  phat2 <- x2/n2
-  qhat1 <- 1 - phat1
-  qhat2 <- 1 - phat2
-  phat <- (n1*phat1 + n2*phat2)/(n1+n2)
-  qhat <- 1 - phat
-  
+ two.proptest_norm <- function(x1, x2, n1, n2, p=NULL, conf.level=0.95, alternative="less") {
  
-  if(length(p) > 0) { 
-    SE.phat <- sqrt(phat*qhat*((1/n1)+(1/n2))) 
-    z.stat <- (phat1 - phat2)/SE.phat
-    if(z.stat>0) {
-      p.val <- pnorm(z.stat, lower.tail = FALSE)}
-    if(z.stat<0) {
-      p.val <- pnorm(z.stat, lower.tail = TRUE)
-    }
-      if(alternative=="two.sided") {
-        p.val <- p.val * 2}
-    
-      if(alternative=="greater") {
-        p.val <- 1 - p.val
-      }
-    } else {
-    # Construct a confidence interval   
-      SE.phat <- sqrt((phat1*qhat1/n1) + (phat2*qhat2/n2))
-    }
-    cint <- phat1-phat2 + c(-1*((qnorm(((1 - conf.level)/2) + conf.level))*SE.phat),
-                        ((qnorm(((1 - conf.level)/2) + conf.level))*SE.phat))
+ # phat1, phat2 are observed proportions of each group
+ # n1, n2 are sample sizes of each group
+ # x1, x2 are admitted number of each group
+ # phat is the weighted average of the two sample proportions
+ # p.value is the hypothesis value
+   
+   z.stat <- NULL
+   cint <- NULL
+   p.val <- NULL
+   phat1 <- x1/n1
+   phat2 <- x2/n2
+   qhat1 <- 1 - phat1
+   qhat2 <- 1 - phat2
+   phat <- (n1*phat1 + n2*phat2)/(n1+n2)
+   qhat <- 1 - phat
+   
   
-  return(list(estimate=phat1-phat2, z.stat=z.stat, p.val=p.val, cint=cint))
-}
+   if(length(p) > 0) { 
+     SE.phat <- sqrt(phat*qhat*((1/n1)+(1/n2))) 
+     z.stat <- (phat1 - phat2)/SE.phat
+     if(z.stat>0) {
+       p.val <- pnorm(z.stat, lower.tail = FALSE)}
+     if(z.stat<0) {
+       p.val <- pnorm(z.stat, lower.tail = TRUE)
+     }
+       if(alternative=="two.sided") {
+         p.val <- p.val * 2}
+     
+       if(alternative=="greater") {
+         p.val <- 1 - p.val
+       }
+     } else {
+     # Construct a confidence interval   
+       SE.phat <- sqrt((phat1*qhat1/n1) + (phat2*qhat2/n2))
+     }
+     cint <- phat1-phat2 + c(-1*((qnorm(((1 - conf.level)/2) + conf.level))*SE.phat),
+                         ((qnorm(((1 - conf.level)/2) + conf.level))*SE.phat))
+   
+   return(list(estimate=phat1-phat2, z.stat=z.stat, p.val=p.val, cint=cint))
+ }
 ```
 
 ```{r}
-two.proptest_norm(x1=1198, x2=557, n1=1755, n2=1755, p=0, conf.level=0.95, alternative = "two.sided")
+two.proptest_norm(x1=1198, x2=557, n1=2691, n2=1835, p=0, conf.level=0.95, alternative = "two.sided")
 ```
 
-According to the result of two-sample binomial test for proportions, the test statistic is 0.3652422, p-value is 7.738556e-104, confidence interval is bwtween 0.3321600 and 0.3983244. Because the null hypothesis states that there is no differences between the proportions of each group, so the difference between two proportions should be 0. According to the confidence interval, we can see that 0 is not included. In this case, we should reject the null. We can double check this conclusion through p-value. The p-value is 7.738556e-104 which is way less than 0.05. In conclusion, the proportion of male admitted to UCB and the proportion of female admitted to UCB are significantly different. 
+According to the result of two-sample binomial test for proportions, the test statistic is 9.602358, p-value is 7.8136e-22, confidence interval is (0.1127338, 0.1705571). Because the null hypothesis states that there is no differences between the proportions of each group, so the difference between two proportions should be 0. According to the confidence interval, we can see that 0 is not included. In this case, we should reject the null. We can double check this conclusion through p-value. The p-value is 7.8136e-22 which is way less than 0.05. In conclusion, the proportion of male admitted to UCB and the proportion of female admitted to UCB are significantly different.
 
