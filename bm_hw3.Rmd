@@ -543,5 +543,23 @@ We are 95% confidence that the true population proportion of men admitted at Ber
 two.proptest_norm(x1=1198, x2=557, n1=2691, n2=1835, p=0, conf.level=0.95, alternative = "two.sided")
 ```
 
+$$
+\begin{aligned}
+z &= \frac{\hat{p_{1}}-\hat{p_{2}}}{\sqrt{\hat{p}\hat{q}(\frac{1}{n_{1}}+\frac{1}{n_{2}})}},\ where\  \hat{p}=\frac{n_{1}\hat{p_{1}}+n_{2}\hat{p_{2}}}{n_{1}+n_{2}},\ \hat{q}=1-\hat{p}\\
+z &= 9.602358\\
+z_{1-\alpha/2} &= 1.96\\
+\left |z  \right | &> z_{1-\alpha/2},\ reject\ H_{0}\\
+p-value &= 7.8136e-22
+\end{aligned}
+$$
+$$
+\begin{aligned}
+\hat{p_{1}}-\hat{p_{2}}-z_{1-\alpha/2}\sqrt{\frac{\hat{p_{1}}(1-\hat{p_{1}})}{n_{1}}+\frac{\hat{p_{2}}(1-\hat{p_{2}})}{n_{2}}}&=0.1127338\\
+\hat{p_{1}}-\hat{p_{2}}+z_{1-\alpha/2}\sqrt{\frac{\hat{p_{1}}(1-\hat{p_{1}})}{n_{1}}+\frac{\hat{p_{2}}(1-\hat{p_{2}})}{n_{2}}}&=0.1705571\\
+\end{aligned}
+$$
+$$
+So,\ the\ CI\ is\ (0.1127338, 0.1705571)
+$$
 According to the result of two-sample binomial test for proportions, the test statistic is 9.602358, p-value is 7.8136e-22, confidence interval is (0.1127338, 0.1705571). Because the null hypothesis states that there is no differences between the proportions of each group, so the difference between two proportions should be 0. According to the confidence interval, we can see that 0 is not included. In this case, we should reject the null. We can double check this conclusion through p-value. The p-value is 7.8136e-22 which is way less than 0.05. In conclusion, the proportion of male admitted to UCB and the proportion of female admitted to UCB are significantly different.
 
